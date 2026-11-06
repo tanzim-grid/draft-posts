@@ -93,6 +93,7 @@
         var body = rows[0].state;
         if (initial || (body.savedAt && body.savedAt !== lastRemote && !localIsNewer(body.savedAt))) {
           storeRemote(body); window.__boardRemoteLoaded = true;
+          if (!initial) window.location.reload();
         }
         if (initial) status('Synced ✓', '#57C4A8');
       }).catch(function () { if (initial) status('Offline – saved locally', '#EA9A62'); });
@@ -578,7 +579,7 @@ function App() {
     return slot === "3" ? /* @__PURE__ */ React.createElement("div", { key: "3-wrap" }, slotNode, trendingPanel) : slotNode;
   })));
 }
-ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ React.createElement(App, null));
+Promise.resolve(window.__boardStart).catch(function(){}).then(function(){ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));});
 
 </script>
 </body>

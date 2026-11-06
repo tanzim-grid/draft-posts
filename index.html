@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hugeicons Drafts Board</title>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<style>html,body{margin:0;background:#0b0e13;color:#f0f2f6;font-family:system-ui,-apple-system,sans-serif}</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const { useState, useEffect, useMemo, useRef } = React;
+const DATE = "2026-11-06";
+const DATE_LABEL = "Fri Nov 6";
+const ROWS = [
+  { "Post": "Why is AI always a sparkle?", "Slot": "1", "Type": "Engagement question", "Status": "Drafted", "Feedback": null, "Draft": 'Why does every AI feature get the same \u2728 icon?\n\nGenerate. Summarize. Rewrite. Translate.\n\nAll sparkles.\n\nGenuine question: what should "AI" actually look like as an icon?', "Variant 1": "Every AI button in every app:\n\n\u2728\n\nWhat should the AI icon be instead? Wrong answers welcome.", "Variant 2": "why is every ai feature a sparkle. genuinely asking", "Variant 3": "Count the \u2728 icons in your app right now.\n\nIf it's more than 3, your users can't tell your AI features apart.\n\nWhat would you use instead?", "Variant 4": `Designers in 2026:
+
+"AI summarize" \u2728
+"AI rewrite" \u2728
+"AI search" \u2728
+"AI settings" \u2728
+
+Help. What's the alternative?`, "Variant 5": 'Hot take: the \u2728 icon has stopped meaning anything.\n\nIt used to say "magic". Now it just says "we added AI somewhere".\n\nAgree or disagree?', "Variant 6": "Quick poll for designers and devs:\n\nHow do you mark AI features in your UI?\n\n1. \u2728 sparkle (like everyone)\n2. A custom icon\n3. Just a text label\n4. We don't mark them", "Variant 7": "The sparkle icon is the new hamburger menu.\n\nEveryone uses it. Nobody agrees what it means.\n\nWhat's your AI icon of choice?", "Variant 8": `Imagine if every "save" button used a different icon.
+
+That's AI features right now, except they all use the same one.
+
+What's the better AI icon?`, "Variant 9": "Building an AI feature this week?\n\nBefore you reach for \u2728, ask: would a user know what this button does without the label?\n\nWhat icon do you use for AI?", "Variant 10": "If \u2728 means AI, what does AI-but-it-actually-works look like?\n\nDrop your best icon idea \u{1F447}" },
+  { "Post": '"Nobody notices icons" doubters', "Slot": "2", "Type": "Meme/Casual", "Status": "Drafted", "Feedback": null, "Draft": `"Nobody notices icons"
+"Users don't care about stroke width"
+"Just use emojis, it's fine"
+
+Then they open your app and it just feels... off.
+
+They noticed.`, "Variant 1": `"Nobody notices icons"
+
+Users can't name it. They still feel it.`, "Variant 2": `"icons don't matter"
+
+sure. that's why your app feels like a template`, "Variant 3": `Things I've been told:
+
+- "Users don't look at icons"
+- "Stroke width is a designer thing"
+- "Emojis work fine"
+
+Things users say:
+
+- "It just feels cheap"
+
+Same thing.`, "Variant 4": `Users won't tell you your icons are inconsistent.
+
+They'll just say the app feels "kind of janky" and leave.`, "Variant 5": `"Just use emojis, it's fine"
+
+It's fine until your settings page looks like a group chat.`, "Variant 6": "Nobody notices good icons.\n\nEverybody notices bad ones.\n\nThat's the whole job.", "Variant 7": `"We'll fix the icons later"
+later:
+> 3 libraries
+> 5 sizes
+> 1 emoji doing a job it wasn't hired for`, "Variant 8": "People who say nobody notices icons have never watched a user hesitate over the wrong one.", "Variant 9": "Icons are like a referee.\n\nNobody notices when they're good. Everyone has opinions when they're bad.", "Variant 10": '"nobody notices icons" is what people say right before a user taps delete instead of share' },
+  { "Post": "My first project vs now (icons)", "Slot": "3", "Type": "Tip", "Status": "Drafted", "Feedback": null, "Draft": "Icons in my first side project:\n\n- 3 different libraries\n- 7 random sizes\n- emojis as backup\n\nIcons now:\n\n- one family\n- 16 / 20 / 24\n- same stroke everywhere\n\nSame dev. Same skills.\n\nThe app just looks like it can be trusted.", "Variant 1": `My first project's icons: 3 libraries, 7 sizes, 2 emojis.
+
+Now: one family, 3 sizes, one stroke.
+
+That single change did more for "polish" than any redesign.`, "Variant 2": `Year 1 me: "I'll just grab whatever icon looks close enough"
+
+Now me: one family or nothing.
+
+What changed? I saw my app next to a real one.`, "Variant 3": `It took me:
+
+- 1 project to mix 3 icon packs
+- 1 user to say "it feels off"
+- 1 afternoon to switch to one family
+
+Should've done step 3 first.`, "Variant 4": "The cheapest polish upgrade I know:\n\n> pick one icon family\n> pick 3 sizes\n> lock the stroke width\n\nThat's it. No redesign needed.", "Variant 5": "then:\n- whatever icon google showed first\n\nnow:\n- one family, one stroke, three sizes\n\nthe app didn't change. the trust did.", "Variant 6": 'If your side project feels "almost there", check your icons.\n\nMine had 3 libraries and 7 sizes.\n\nFixing that took one afternoon.', "Variant 7": "Beginner icon setup: vibes.\nPro icon setup: rules.\n\n> one family\n> 16 / 20 / 24\n> same stroke\n\nSteal the rules.", "Variant 8": "Looked at my first app again today.\n\nThe code was fine. The features were fine.\n\nThe icons came from 3 different universes \u{1F605}", "Variant 9": "Polish isn't a skill you're born with.\n\nIt's mostly saying no to the 4th icon library.", "Variant 10": `What changed between my first app and now?
+
+Not my code. Not my design skills.
+
+I just stopped mixing icons.
+
+What was your "oh, that's why" moment?` },
+  { "Post": "Cursor one-click web apps (trending)", "Slot": "4", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "Cursor just shipped one-click web apps.\n\nPrompt \u2192 scaffold \u2192 Postgres \u2192 auth \u2192 deploy \u2192 shareable URL.\n\nAll inside the editor.\n\nlocalhost is starting to feel optional.", "Variant 1": "Cursor: prompt it, get a live URL.\n\nThe distance between idea and shareable app just collapsed again.", "Variant 2": `cursor now scaffolds, auths, and deploys from one prompt. the "i'll host it later" era is cooked`, "Variant 3": "New in Cursor: one-click web app deploy.\n\n> natural language scaffold\n> optional Postgres\n> SSO auth\n> security checks\n> shareable URL\n\nInternal tools just got a lot harder to justify delaying.", "Variant 4": "Guillermo Rauch already reacting to Cursor's one-click deploy.\n\nthe editor \u2192 production loop is the whole game now", "Variant 5": 'Remember when "deploy" meant a separate afternoon?\n\nCursor just made it a button next to the prompt.', "Variant 6": "Cursor's new flow: build and deploy without leaving the IDE.\n\nWho's actually shipping internal tools with this today?", "Variant 7": "prompt \u2192 live url\n\nthat's the whole changelog. and it's huge.", "Variant 8": "The interesting part of Cursor's one-click web apps isn't the scaffold.\n\nIt's that deploy stopped being a different product.", "Variant 9": "every coding agent wants to write your code.\nCursor just decided it also wants to host it.", "Variant 10": "If your side project still dies on localhost, Cursor just removed the last excuse." },
+  { "Post": "Cat Wu leaves Anthropic for OpenAI (trending)", "Slot": "5", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "Cat Wu, who led Claude Code at Anthropic, just joined OpenAI.\n\nClaude Code \u2192 OpenAI core product.\n\nThe agent wars aren't just about models anymore. They're about who keeps the people who shipped the UX.", "Variant 1": "the Claude Code PM just walked over to OpenAI.\n\ntalent is the real context window.", "Variant 2": "Cat Wu built Claude Code. Now she's shaping OpenAI's core products.\n\nWhoever owns the agent UX owns the next decade of shipping.", "Variant 3": "Anthropic IPO filing. Claude Code PM exits to OpenAI.\n\nquiet week in AI, nothing to see here.", "Variant 4": "Models are converging.\nPMs who ship the interface aren't.\n\nCat Wu \u2192 OpenAI is the latest proof.", "Variant 5": "you can copy a model. you can't copy the person who made developers actually use it.", "Variant 6": `Claude Code's product lead just joined OpenAI.
+
+Curious who "wins" the agent race when the builders keep switching teams.`, "Variant 7": "labs are fighting for the same 50 people who know how to make agents feel usable.\n\ntoday's transfer: Cat Wu.", "Variant 8": "OpenAI hired the person who made Claude Code click for a lot of us.\n\nthat's not a press release. that's a product bet.", "Variant 9": "S-1 filing one week. product lead exits the next.\n\nAI companies really don't do quiet months.", "Variant 10": "Honest take: the Claude Code \u2192 OpenAI move matters more than another benchmark screenshot." }
+];
+const RATINGS = {
+  "1-D": { score: 8, why: "Concrete enumerated AI verbs + open question; sparkle-fatigue is a real designer gripe and invites pile-on replies." },
+  "1-V1": { score: 8, why: "Visual one-liner with wrong-answers invitation; short and reply-friendly." },
+  "1-V2": { score: 9, why: "Lowercase craigweiss energy; short feeling, no formula opener. Very quotable." },
+  "1-V3": { score: 7, why: "Concrete threshold (more than 3) plus a clear ask; a bit longer than the punchiest lines." },
+  "1-V4": { score: 8, why: "Enumerated list of identical sparkles makes the joke land; matches Nov 4 listed-examples win." },
+  "1-V5": { score: 3, why: "Formulaic 'Hot take:' opener the audience has tuned out. The point is fine; the frame is not." },
+  "1-V6": { score: 6, why: "Poll format drives taps but less personal feeling than short one-liners." },
+  "1-V7": { score: 7, why: "Hamburger comparison is memorable; slightly familiar analogy." },
+  "1-V8": { score: 8, why: "Strong save-button analogy that makes the inconsistency feel absurd." },
+  "1-V9": { score: 6, why: "Useful prompt for builders; reads a bit tip-like for an engagement slot." },
+  "1-V10": { score: 7, why: "Playful twist on sparkle meaning; good for replies, medium repost potential." },
+  "2-D": { score: 9, why: "Quoted-doubt stack into a gut-punch payoff ('They noticed'). Short feeling; high reply bait." },
+  "2-V1": { score: 9, why: "Two-line emotional truth. Extremely quotable." },
+  "2-V2": { score: 8, why: "Lowercase dry roast; template-app jab lands for pro builders." },
+  "2-V3": { score: 8, why: "Before/after quote lists make the contradiction concrete." },
+  "2-V4": { score: 8, why: "Specific user language ('kind of janky') feels true." },
+  "2-V5": { score: 9, why: "Group-chat settings page image is painfully funny and specific." },
+  "2-V6": { score: 9, why: "Three-line craft statement that carries a feeling. Peak one-liner set." },
+  "2-V7": { score: 7, why: "Enumerated 'later' mess is concrete; a bit longer." },
+  "2-V8": { score: 8, why: "Watched-a-user-hesitate detail makes the argument visceral." },
+  "2-V9": { score: 6, why: "Referee analogy is clear but a little slogan-y." },
+  "2-V10": { score: 8, why: "Delete-vs-share punchline is concrete and scary. Strong closer." },
+  "3-D": { score: 7, why: "Before/after enumerated lists (robj3d3-style); practical mid-tier vs punchiest one-liners." },
+  "3-V1": { score: 7, why: "Clean then/now contrast; useful but tip-shaped." },
+  "3-V2": { score: 8, why: "Year-1 vs now dialogue feels lived-in and honest." },
+  "3-V3": { score: 8, why: "Three-step chronology with a punchline; concrete and short." },
+  "3-V4": { score: 6, why: "Checklist tip format; less feeling than emotional one-liners." },
+  "3-V5": { score: 8, why: "Lowercase then/now with 'the trust did' payoff. Strong feeling." },
+  "3-V6": { score: 6, why: "Helpful diagnostic; soft opener." },
+  "3-V7": { score: 5, why: "'Beginner/Pro' framing talks down a bit for this audience." },
+  "3-V8": { score: 7, why: "Honest look-back with a funny closer; emoji softens the punch." },
+  "3-V9": { score: 8, why: "Short craft line about saying no; quotable." },
+  "3-V10": { score: 7, why: "Open question closer invites stories; a bit long." },
+  "4-D": { score: 9, why: "Fresh Cursor deploy news + concrete pipeline list; fast news + enumerated steps. Top format." },
+  "4-V1": { score: 8, why: "Collapsed-distance framing is clear and quotable." },
+  "4-V2": { score: 9, why: "Lowercase, punchy, cooked-era closer. Feels like the community." },
+  "4-V3": { score: 8, why: "Bullet news summary with a sharp internal-tools closer." },
+  "4-V4": { score: 7, why: "Named reaction adds social proof; slightly insider." },
+  "4-V5": { score: 8, why: "Nostalgic deploy-afternoon contrast; short and felt." },
+  "4-V6": { score: 7, why: "Genuine question on a hot release; good for replies." },
+  "4-V7": { score: 9, why: "Four-word changelog energy. Extremely shareable." },
+  "4-V8": { score: 8, why: "Reframe that deploy stopped being a product; smart take." },
+  "4-V9": { score: 8, why: "Agents-write vs Cursor-hosts contrast; clean two-liner." },
+  "4-V10": { score: 7, why: "Side-project localhost jab; a bit lecture-y." },
+  "5-D": { score: 8, why: "Timely talent-move reaction with craft angle (UX people > benchmarks)." },
+  "5-V1": { score: 9, why: "Talent-is-the-real-context-window is a killer one-liner." },
+  "5-V2": { score: 8, why: "Owns-the-agent-UX framing is ambitious and clear." },
+  "5-V3": { score: 8, why: "Dry 'quiet week' sarcasm lands for this audience." },
+  "5-V4": { score: 8, why: "Models converge / PMs don't \u2014 sharp structural take." },
+  "5-V5": { score: 9, why: "Copy-a-model vs copy-the-person; short and felt." },
+  "5-V6": { score: 7, why: "Curious who wins question; good replies, softer punch." },
+  "5-V7": { score: 8, why: "Same-50-people framing feels true for agent UX." },
+  "5-V8": { score: 8, why: "Not-a-press-release closer reframes the hire as a bet." },
+  "5-V9": { score: 7, why: "S-1 then exit timing jab; slightly news-dump-y." },
+  "5-V10": { score: 7, why: "Honest-take framing is fine but less sharp than V1/V5." }
+};
+const TRENDING = { items: [
+  { title: "Cursor one-click prompt-to-deploy web apps", context: "Prompt \u2192 scaffold \u2192 Postgres \u2192 auth \u2192 deploy \u2192 shareable URL, all inside the editor.", url: "https://x.com/i/trending/2118474980145160485" },
+  { title: "Cat Wu (Claude Code lead) joins OpenAI", context: "The PM behind Claude Code moved to OpenAI core product \u2014 talent as the real agent race.", url: "https://x.com/i/trending/2118298101572055268" },
+  { title: "Living Brain cross-model memory", context: "Shared memory that follows you across models and tools." },
+  { title: "Aether cloud agents", context: "Cloud-hosted agents that keep running after you close the laptop." },
+  { title: "WebStorm 2026.3 agent loop", context: "Wires Figma, Storybook, and Chrome DevTools into the agent loop." }
+], takeaways: "Short emotional one-liners work; lived UX gripes travel; concrete enumerated lists outperform vague tips." };
+const CONTEXT = {
+  "4": { text: "Cursor shipped one-click prompt-to-deploy web apps: scaffold, Postgres, auth, and a shareable URL from the editor.", url: "https://x.com/i/trending/2118474980145160485", media: "Quote Cursor's announcement or the X trending story. Optional: screenshot of the deploy flow if available." },
+  "5": { text: "Cat Wu, who led Claude Code at Anthropic, joined OpenAI's core product team.", url: "https://x.com/i/trending/2118298101572055268", media: "Text-only reaction is fine; quote or screenshot the trending story if you want a visual." }
+};
+const GEM_C = "#22D3EE", PICK_C = "#4ADE80", DIS_C = "#F87171";
+const ACCENT = { "1": "#F57F34", "2": "#FF4D4D", "3": "#AB62EA", "4": "#4D4DFF", "5": "#57C4A8" };
+const STAR_MEANING = { 1: "Don't show this type again", 2: "Needs heavy improvement", 3: "Needs improvement", 4: "Good enough, can improve", 5: "Good" };
+const KEY = "hugeicons-hidden-" + DATE, DONE_KEY = "hugeicons-done-" + DATE, FB_KEY = "hugeicons-feedback-" + DATE, COPIED_KEY = "hugeicons-feedback-copied-" + DATE, HIST_KEY = "hugeicons-history-" + DATE, CAP = 50;
+const fpOf = (o) => JSON.stringify(Object.keys(o).sort().map((k) => [k, !!o[k].copied, !!o[k].posted, !!o[k].hidden, !!o[k].gem, o[k].stars, o[k].note]));
+const slotOf = (id) => id.indexOf("slot-") === 0 ? id.slice(5) : id.split("-")[0];
+const labelOf = (id) => {
+  const p = id.split("-")[1] || "";
+  return p === "D" ? "Draft" : p;
+};
+const markN = (base, id, f, v) => {
+  const n = { ...base };
+  const e = { ...n[id] || { note: "" } };
+  if (v) e[f] = true;
+  else delete e[f];
+  if (!e.copied && !e.posted && !e.hidden && !e.gem) delete n[id];
+  else n[id] = e;
+  return n;
+};
+function cardsFor(r) {
+  const out = [];
+  if (r.Draft) out.push({ id: r.Slot + "-D", label: "Draft", text: r.Draft || "", url: "https://x.com/intent/post?text=" + encodeURIComponent(r.Draft) });
+  for (let i = 1; i <= 10; i++) {
+    const t = r["Variant " + i];
+    if (t) out.push({ id: r.Slot + "-V" + i, label: "V" + i, text: t, url: "https://x.com/intent/post?text=" + encodeURIComponent(t) });
+  }
+  return out;
+}
+const tierColor = (s) => s >= 8 ? "#4ADE80" : s >= 6 ? "#FACC15" : "#F87171";
+const tierName = (s) => s >= 8 ? "High" : s >= 6 ? "Medium" : "Low";
+const CSS = `*{box-sizing:border-box}:root{color-scheme:dark}body{margin:0;background:#0b0e13;color:#f0f2f6}button,input,select{font:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #7d97fe!important;outline-offset:3px}::selection{background:#52639a;color:#fff}.hg-app{background:#0b0e13;color:#c2c9d4;min-height:100vh;font-size:14px;line-height:1.58;padding:38px clamp(16px,3.1vw,46px) 100px;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}.hg-container{max-width:1400px;margin:0 auto}.hg-title{font-size:32px;line-height:1.18;letter-spacing:-.052em;font-weight:690;color:#f0f2f6;margin:0}.hg-subtitle{font-size:12.5px;line-height:1.6;color:#8e98aa;margin-top:8px;font-weight:450;letter-spacing:.01em}.hg-toolbar-primary{display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:#11151c;border:1px solid #292f3a;border-radius:14px;padding:10px;margin-top:25px;box-shadow:0 2px 16px #0000001a,inset 0 1px #ffffff04}.hg-toolbar-secondary{display:flex;align-items:center;flex-wrap:wrap;gap:11px;padding:14px 1px 21px;margin-top:5px;border-bottom:1px solid #292f3a}.hg-counters{font-size:12px;color:#8e98aa}.hg-button,.hg-history-button,.hg-hide-button{background:#1a2029;color:#cbd1dc;border:1px solid #323a47;border-radius:9px;padding:7px 12px;font-size:12.5px;font-weight:560;line-height:1.45;min-height:35px;white-space:nowrap;cursor:pointer}.hg-button,.hg-select,.hg-search,.hg-link-button,.hg-history-button,.hg-hide-button,.hg-gem-button,.hg-notes-save{transition:background-color .16s,border-color .16s,box-shadow .16s,color .16s,transform .16s}.hg-button:not(:disabled):hover,.hg-history-button:not(:disabled):hover,.hg-hide-button:not(:disabled):hover{background:#1c2229;border-color:#566070;color:#fff}.hg-button:not(:disabled):active,.hg-history-button:not(:disabled):active{transform:translateY(1px)}.hg-button:disabled,.hg-history-button:disabled{cursor:default;opacity:.36}.hg-ico{display:inline-flex;align-items:center;justify-content:center;font-size:15px;margin-right:7px;vertical-align:-2px;line-height:1;font-style:normal}.hg-search,.hg-select{background:#0c1016;color:#f0f2f6;border:1px solid #323a46;border-radius:9px;padding:7px 12px;min-height:37px;font-size:13px;line-height:1.5;font-weight:460}.hg-search{flex:1 1 230px;min-width:200px}.hg-search::placeholder,.hg-note-input::placeholder{color:#778294;opacity:1}.hg-search:hover,.hg-select:hover{border-color:#465264}.hg-search:focus,.hg-select:focus{border-color:#6f82d7;box-shadow:0 0 0 3px #6980f51f;outline:0}.hg-select{flex:0 0 auto;max-width:100%;cursor:pointer}.hg-feedback-button,.hg-banner .hg-button{background:#18271d!important;border:1px solid #35573d!important;color:#b5e9be!important}.hg-feedback-button:hover,.hg-banner .hg-button:hover{background:#213629!important;border-color:#5b996e!important;color:#e2ffe7!important}.hg-danger-button{background:#7a2731!important;border-color:#a73a44!important;color:#fff!important}.hg-banner{position:sticky;top:8px;z-index:50;background:#2c2117f5;border:1px solid #6d563c;color:#e9dfd2;border-radius:11px;box-shadow:0 15px 36px #00000057;backdrop-filter:blur(18px);padding:9px 12px;font-size:13px;margin:-12px auto 16px;max-width:1400px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}.hg-confirm-text{color:#f2e4e5;font-weight:570}.hg-trending{margin:51px 0 22px;border:1px solid #28313d;border-radius:15px;padding:22px 23px 20px;background:linear-gradient(160deg,#111720,#0e131a);box-shadow:inset 0 1px #ffffff04}.hg-trending-title{font-size:16px;line-height:1.45;font-weight:650;letter-spacing:-.018em;color:#e7ebf0;margin-bottom:14px}.hg-trend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,208px),1fr));gap:10px}.hg-trend-card{background:#151b23;border:1px solid #2b3440;border-radius:11px;padding:15px 15px 14px;transition:border-color .2s,background-color .2s}.hg-trend-card:hover{background:#171d26;border-color:#3b4554}.hg-trend-title{color:#e5e9f0;font-size:12.8px;font-weight:620;line-height:1.46;text-decoration:none}a.hg-trend-title:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}.hg-trend-context{color:#8792a2;font-size:11.7px;line-height:1.54;margin-top:7px}.hg-trend-takeaways{color:#7d899c;font-size:11.8px;line-height:1.6;margin-top:13px}.hg-trend-takeaways>span{color:#aeb8c7;font-weight:570}.hg-trend-takeaways a{color:#a0c7ae;text-underline-offset:2px}.hg-slot{--slot-accent:#8795ad;margin-top:42px;border-top:1px solid #29303c;border-left:3px solid var(--slot-accent);padding-left:20px;scroll-margin-top:58px}.hg-slot-history{position:sticky;top:0;z-index:15;background:#0b0e13fc;height:44px;margin-bottom:6px;display:flex;justify-content:flex-end;align-items:center;gap:0;padding:0 1px 0 0}.hg-slot-history .hg-history-button{width:104px;height:34px;min-height:34px;background:#151a22;border:1px solid #2a3340;color:#abb6c6;border-radius:0;font-size:12px;font-weight:570;padding:0 12px;display:inline-flex;align-items:center;justify-content:center}.hg-slot-history .hg-history-button:first-child{border-radius:9px 0 0 9px}.hg-slot-history .hg-history-button:last-child{border-left:0;border-radius:0 9px 9px 0}.hg-slot-history .hg-history-button:not(:disabled):hover{background:#232b36;border-color:#495667;color:#f1f5fb}.hg-slot-header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}.hg-slot-title-group{display:flex;flex-wrap:wrap;gap:11px;align-items:center}.hg-slot-num{background:var(--slot-accent);border-radius:7px;padding:3px 10px;font-size:12px;line-height:1.65;color:#0b0e13;font-weight:750}.hg-slot-heading{font-size:20px;font-weight:630;color:#f0f2f6;letter-spacing:-.027em;line-height:1.3}.hg-rated{background:#ffffff09;border:1px solid var(--slot-accent);color:#cbd4de;font-size:11px;font-weight:560;padding:3px 9px;border-radius:999px}.hg-slot-controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.hg-star-group{display:flex;gap:3px}.hg-star{font-size:23px;padding:1px;transition:transform .16s,color .16s,filter .16s;background:transparent;border:0;cursor:pointer}.hg-star:hover{transform:scale(1.13);filter:brightness(1.15)}.hg-star-hint{font-size:11px;color:#8894a4;text-align:right;min-height:14px;font-weight:470}.hg-note-preview{color:#aeb7c5;font-size:11.5px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic}.hg-note-preview button{font-size:11.5px}.hg-note-row{margin-top:14px;gap:9px;display:flex;flex-wrap:wrap;align-items:center}.hg-note-input{background:#10151c;color:#e7ebf2;border-radius:8px;font-size:12.8px;box-shadow:none;min-width:0}.hg-note-input:focus{outline:0;border-color:var(--slot-accent);box-shadow:0 0 0 3px #849bc81a}.hg-notes-save{font-weight:700;border-radius:7px}.hg-note-status{color:#90a0ad}.hg-slot-meta{margin-top:10px;gap:6px;font-size:11.5px;color:#8993a3;display:flex;flex-wrap:wrap;align-items:center}.hg-context-trigger{transition:transform .15s,color .15s,border-color .15s,box-shadow .15s}.hg-bang:hover,.hg-bang:focus-visible{transform:scale(1.15) translateY(-1px);color:var(--hg-ac);border-color:var(--hg-ac);box-shadow:0 0 10px var(--hg-ac)}.hg-bang:active{transform:scale(.92) translateY(1px)}.hg-tooltip{background:#202731;border:1px solid #465160;border-top:2px solid var(--slot-accent);color:#d6dce6;border-radius:10px;box-shadow:0 16px 42px #00000080;font-size:12px;line-height:1.55;position:absolute;top:calc(100% + 8px);left:0;z-index:20;width:300px;padding:10px 12px;font-weight:400}.hg-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,354px),1fr));gap:15px;margin-top:22px;align-items:stretch}.hg-card{overflow:visible;isolation:isolate;background:linear-gradient(164deg,#171d26,#131820 48%,#11161d);border:1px solid #303845;border-radius:15px;padding:21px 21px 18px;min-height:238px;box-shadow:0 1px 2px #0000002e,0 10px 25px #0000000e,inset 0 1px #ffffff07;transition:background .2s,transform .2s,border-color .2s,box-shadow .2s;display:flex;flex-direction:column;position:relative}.hg-card:before{content:"";position:absolute;pointer-events:none;top:-1px;left:20px;width:34px;height:2px;border-radius:2px;background:var(--slot-accent);opacity:.58}.hg-card--draft{background:linear-gradient(155deg,color-mix(in srgb,var(--slot-accent) 7%,#181d25),#151b23 48%,#11161d);border-color:color-mix(in srgb,var(--slot-accent) 27%,#303845)}.hg-card--draft:before{width:54px;opacity:.98}.hg-card:not(.is-hidden):hover{background:linear-gradient(164deg,#1d2531,#161d26 54%,#151b24);border-color:#495566;box-shadow:0 14px 36px #0000003d,inset 0 1px #ffffff0a;transform:translateY(-2px);z-index:4}.hg-card:focus-within{z-index:6}.hg-card-head{gap:12px;display:flex;justify-content:space-between;flex-wrap:nowrap;align-items:flex-start}.hg-card-id{gap:7px;display:flex;flex-wrap:wrap;align-content:start;min-width:0;padding-top:4px;align-items:center;position:relative}.hg-card-label{color:#f0f3f8;font-size:13px;font-weight:700;letter-spacing:-.014em;line-height:1.5;margin-right:2px}.hg-card--draft .hg-card-label{color:color-mix(in srgb,var(--slot-accent) 69%,#fff)}.hg-score{padding:2px 7px;border-radius:7px;font-size:10.5px;font-weight:680;line-height:19px;background:color-mix(in srgb,currentColor 7%,#151b22);border:1px solid color-mix(in srgb,currentColor 37%,#303744);font-variant-numeric:tabular-nums;cursor:help}.hg-card-status{padding:2px 7px;border-radius:6px;line-height:1.35;font-size:10.5px;font-weight:560;background:#ffffff06}.hg-card-controls{flex:0 0 auto;gap:6px;display:flex;align-items:center}.hg-gem-button,.hg-hide-button{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;min-height:32px;padding:0;border-radius:8px;background:#ffffff04;border:1px solid #343e4c;color:#abb6c6;cursor:pointer}.hg-gem-button{font-size:15px;line-height:1}.hg-hide-button{font-size:20px}.hg-gem-button[aria-pressed=true]{background:#13313b!important;border-color:#22d3ee!important;color:#89e7f1}.hg-card-controls button:hover{background:#2a3441;color:#f0f4fa;border-color:#536174}.hg-card-text{font-size:14.6px;line-height:1.66;letter-spacing:-.009em;color:#dce2eb;margin-top:24px;overflow-wrap:anywhere;white-space:pre-wrap;flex:1}.hg-card-footer{display:flex;flex-wrap:nowrap;align-items:stretch;margin-top:23px;padding-top:16px;border-top:1px solid #303947;gap:9px}.hg-post-link{flex:1 1 auto;background:color-mix(in srgb,var(--slot-accent) 10%,#1b212b);border:1px solid color-mix(in srgb,var(--slot-accent) 38%,#3a4654);color:color-mix(in srgb,var(--slot-accent) 63%,#f9fbff);border-radius:9px;min-height:39px;padding:9px 12px;font-size:12.5px;font-weight:650;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}.hg-post-link:hover{background:color-mix(in srgb,var(--slot-accent) 17%,#222a35);border-color:var(--slot-accent);color:#fff}.hg-copy-button{flex:0 0 auto;min-width:101px!important;min-height:39px;border-radius:9px;background:#202731;border:1px solid #3a4553;padding:9px 12px;font-size:12.5px}.hg-hidden-placeholder{visibility:visible;position:absolute;inset:0;z-index:5;background:linear-gradient(135deg,#10151b,#0d1218);border:1px dashed color-mix(in srgb,var(--slot-accent) 44%,#465263);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#91a0b0}.is-hidden{opacity:.48}@keyframes gemPulse{0%,100%{box-shadow:0 0 8px #22d3ee}50%{box-shadow:0 0 18px #22d3ee,0 0 28px #22d3ee66}}@keyframes hgPulse{0%{opacity:0;transform:scale(.85)}50%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}@media(max-width:760px){.hg-app{padding:23px 15px 65px}.hg-title{font-size:27px}.hg-subtitle{font-size:11.5px}.hg-select{flex:1 1 140px}.hg-search{order:2;flex:1 1 100%;min-width:0}.hg-counters{order:2;flex:1 1 100%}.hg-feedback-button{margin-left:auto}.hg-slot{margin-top:31px;padding-left:12px}.hg-slot-heading{font-size:17px}.hg-slot-controls{justify-content:space-between;width:100%}.hg-card-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,315px),1fr));gap:12px}.hg-card{padding:18px;min-height:216px}.hg-card-head{flex-wrap:wrap}.hg-card-text{margin-top:18px;font-size:14.2px}.hg-trending{margin:35px 0 15px;padding:18px 15px}.hg-note-input{max-width:100%!important}.hg-banner{top:2px}}@media(max-width:430px){.hg-toolbar-primary>button{flex:1 1 auto}.hg-card-grid,.hg-trend-grid{grid-template-columns:minmax(0,1fr)}.hg-card{padding:18px 16px}.hg-copy-button{min-width:96px!important}.hg-slot-controls{gap:8px}}@media(prefers-reduced-motion:reduce){.hg-app *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}`;
+const HgIcon = ({ children }) => /* @__PURE__ */ React.createElement("i", { className: "hg-ico", "aria-hidden": true }, children);
+function App() {
+  const [hidden, setHidden] = useState([]), [hist, setHist] = useState({}), [lastSlot, setLastSlot] = useState("");
+  const [drafts, setDrafts] = useState({}), [nStat, setNStat] = useState({}), [flash, setFlash] = useState({}), [focN, setFocN] = useState("");
+  const [showHidden, setShowHidden] = useState(false), [type, setType] = useState("All"), [q, setQ] = useState(""), [copied, setCopied] = useState(""), [done, setDone] = useState([]), [tip, setTip] = useState("");
+  const [fb, setFb] = useState({}), [fbCopied, setFbCopied] = useState(false), [copiedFp, setCopiedFp] = useState(""), [hoverStar, setHoverStar] = useState({}), [confirmClear, setConfirmClear] = useState(false);
+  const noteRef = useRef({}), inRef = useRef({});
+  const dropDraft = (slot) => {
+    const d = { ...drafts };
+    delete d[slot];
+    setDrafts(d);
+  };
+  useEffect(() => {
+    if (!confirmClear) return;
+    const t = setTimeout(() => setConfirmClear(false), 5e3);
+    const k = (e) => {
+      if (e.key === "Escape") setConfirmClear(false);
+    };
+    window.addEventListener("keydown", k);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("keydown", k);
+    };
+  }, [confirmClear]);
+  const saveFb = (n) => {
+    setFb(n);
+    try {
+      localStorage.setItem(FB_KEY, JSON.stringify(n));
+    } catch {
+    }
+  };
+  const saveHist = (h) => {
+    setHist(h);
+    try {
+      localStorage.setItem(HIST_KEY, JSON.stringify(h));
+    } catch {
+    }
+  };
+  const snapOf = (slot, f, h, d) => {
+    const o = {};
+    Object.keys(f).forEach((k) => {
+      if (slotOf(k) === slot) o[k] = f[k];
+    });
+    return { fb: o, hidden: h.filter((x) => slotOf(x) === slot), done: d.includes(slot) };
+  };
+  const writeAll = (nf, nh, nd) => {
+    saveFb(nf);
+    setHidden(nh);
+    try {
+      localStorage.setItem(KEY, JSON.stringify(nh));
+    } catch {
+    }
+    setDone(nd);
+    try {
+      localStorage.setItem(DONE_KEY, JSON.stringify(nd));
+    } catch {
+    }
+  };
+  const commit = (slot, label, nf, nh, nd, merge) => {
+    const cur = hist[slot] || { u: [], r: [] };
+    const top = cur.u[cur.u.length - 1];
+    const u = merge && top && top.label === label ? cur.u : [...cur.u, { label, ts: Date.now(), snap: snapOf(slot, fb, hidden, done) }].slice(-CAP);
+    saveHist({ ...hist, [slot]: { u, r: [] } });
+    setLastSlot(slot);
+    writeAll(nf, nh, nd);
+  };
+  const restore = (slot, s) => {
+    const nf = {};
+    Object.keys(fb).forEach((k) => {
+      if (slotOf(k) !== slot) nf[k] = fb[k];
+    });
+    Object.keys(s.fb).forEach((k) => {
+      nf[k] = s.fb[k];
+    });
+    const nh = hidden.filter((x) => slotOf(x) !== slot).concat(s.hidden);
+    const nd = done.filter((x) => x !== slot);
+    if (s.done) nd.push(slot);
+    writeAll(nf, nh, nd);
+  };
+  const undoSlot = (slot) => {
+    const cur = hist[slot];
+    if (!cur || !cur.u.length) return;
+    const st = cur.u[cur.u.length - 1];
+    saveHist({ ...hist, [slot]: { u: cur.u.slice(0, -1), r: [...cur.r, { label: st.label, ts: st.ts, snap: snapOf(slot, fb, hidden, done) }].slice(-CAP) } });
+    noteRef.current[slot] = 0;
+    dropDraft(slot);
+    setLastSlot(slot);
+    restore(slot, st.snap);
+  };
+  const redoSlot = (slot) => {
+    const cur = hist[slot];
+    if (!cur || !cur.r.length) return;
+    const st = cur.r[cur.r.length - 1];
+    saveHist({ ...hist, [slot]: { u: [...cur.u, { label: st.label, ts: Date.now(), snap: snapOf(slot, fb, hidden, done) }].slice(-CAP), r: cur.r.slice(0, -1) } });
+    noteRef.current[slot] = 0;
+    dropDraft(slot);
+    setLastSlot(slot);
+    restore(slot, st.snap);
+  };
+  const mark = (id, f, v, label) => {
+    if (!!(fb[id] && fb[id][f]) === v) return;
+    commit(slotOf(id), label, markN(fb, id, f, v), hidden, done);
+  };
+  const saveNote = (slot) => {
+    const id = "slot-" + slot;
+    if (!fb[id]) return;
+    const d = drafts[slot];
+    if (d === void 0 || d === fb[id].note) {
+      dropDraft(slot);
+      return;
+    }
+    commit(slot, "note", { ...fb, [id]: { ...fb[id], note: d } }, hidden, done, false);
+    dropDraft(slot);
+    setNStat((p) => ({ ...p, [slot]: "saving" }));
+    setFlash((p) => ({ ...p, [slot]: true }));
+    setTimeout(() => setNStat((p) => ({ ...p, [slot]: "saved" })), 400);
+    setTimeout(() => setFlash((p) => ({ ...p, [slot]: false })), 600);
+    setTimeout(() => setNStat((p) => p[slot] === "saved" ? { ...p, [slot]: "" } : p), 3e3);
+  };
+  const latestSlot = () => {
+    let best = "", ts = -1;
+    Object.keys(hist).forEach((s) => {
+      const u = hist[s].u;
+      if (u.length && u[u.length - 1].ts > ts) {
+        ts = u[u.length - 1].ts;
+        best = s;
+      }
+    });
+    return best;
+  };
+  useEffect(() => {
+    const k = (e) => {
+      if (!(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== "z") return;
+      const t = e.target;
+      if (t && ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName)) return;
+      const s = lastSlot || latestSlot();
+      if (!s) return;
+      e.preventDefault();
+      if (e.shiftKey) redoSlot(s);
+      else undoSlot(s);
+    };
+    window.addEventListener("keydown", k);
+    return () => window.removeEventListener("keydown", k);
+  });
+  const allCards = useMemo(() => ROWS.flatMap((r) => cardsFor(r).map((c) => ({ slot: r.Slot || "", c }))), []);
+  const gemList = allCards.filter((x) => fb[x.c.id]?.gem), copiedList = allCards.filter((x) => fb[x.c.id]?.copied && !fb[x.c.id]?.gem), postedList = allCards.filter((x) => fb[x.c.id]?.posted && !fb[x.c.id]?.copied && !fb[x.c.id]?.gem), skippedList = allCards.filter((x) => fb[x.c.id]?.hidden && (fb[x.c.id]?.copied || fb[x.c.id]?.posted) && !fb[x.c.id]?.gem), disliked = allCards.filter((x) => fb[x.c.id]?.hidden && !fb[x.c.id]?.copied && !fb[x.c.id]?.posted && !fb[x.c.id]?.gem);
+  const ratedSlots = ROWS.filter((r) => (fb["slot-" + r.Slot]?.stars || 0) >= 1), fbCount = gemList.length + copiedList.length + postedList.length + skippedList.length + disliked.length + ratedSlots.length, curFp = fpOf(fb), dirty = Object.keys(fb).length > 0 && curFp !== copiedFp;
+  const rateSlot = (slot, s) => {
+    const k = "slot-" + slot, n = { ...fb }, clear = n[k]?.stars === s;
+    if (clear) delete n[k];
+    else n[k] = { stars: s, note: n[k]?.note || "" };
+    const nd = !clear && !done.includes(slot) ? [...done, slot] : done;
+    commit(slot, clear ? "clear rating" : "rate " + s + "\u2605", n, hidden, nd);
+  };
+  useEffect(() => {
+    if (!dirty) return;
+    const h = (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", h);
+    return () => window.removeEventListener("beforeunload", h);
+  }, [dirty]);
+  const fallback = (t, ok) => {
+    const ta = document.createElement("textarea");
+    ta.value = t;
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy");
+      ok();
+    } catch {
+    }
+    document.body.removeChild(ta);
+  };
+  const copyFeedback = () => {
+    const item = (x) => "- Slot " + x.slot + " " + x.c.label + ': "' + x.c.text + '"', lines = ["Hugeicons feedback " + DATE, "POSTED (\u{1F48E}):"];
+    gemList.forEach((x) => lines.push(item(x)));
+    lines.push("COPIED (good, small refinement):");
+    const lx = (x) => item(x) + (fb[x.c.id]?.hidden ? " (later \xD7)" : "");
+    copiedList.forEach((x) => lines.push(lx(x)));
+    lines.push("OPENED IN X (almost good):");
+    postedList.forEach((x) => lines.push(lx(x)));
+    lines.push("RATED GOOD BUT NOT POSTED (copied/opened then \xD7):");
+    skippedList.forEach((x) => lines.push(item(x)));
+    lines.push("DISLIKED (\xD7 without copy/open):");
+    disliked.forEach((x) => lines.push(item(x)));
+    lines.push("SLOT RATINGS:");
+    ratedSlots.forEach((r) => {
+      const e = fb["slot-" + r.Slot], s = e.stars, n = e.note.trim();
+      lines.push("- Slot " + r.Slot + " (Type: " + r.Type + ', "' + r.Post + '"): ' + s + "/5 \u2014 " + STAR_MEANING[s] + (n ? " \u2014 why: " + n : ""));
+    });
+    const t = lines.join("\n"), snap = curFp, ok = () => {
+      setFbCopied(true);
+      setTimeout(() => setFbCopied(false), 1500);
+      setCopiedFp(snap);
+      try {
+        localStorage.setItem(COPIED_KEY, snap);
+      } catch {
+      }
+    };
+    try {
+      navigator.clipboard.writeText(t).then(ok, () => fallback(t, ok));
+    } catch {
+      fallback(t, ok);
+    }
+  };
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(KEY);
+      if (v) setHidden(JSON.parse(v));
+      const d = localStorage.getItem(DONE_KEY);
+      if (d) setDone(JSON.parse(d));
+      const f = localStorage.getItem(FB_KEY);
+      if (f) {
+        const raw = JSON.parse(f), m = {};
+        Object.keys(raw).forEach((k) => {
+          const e = raw[k];
+          if (k.startsWith("slot-")) {
+            if (e && typeof e.stars === "number" && e.stars >= 1 && e.stars <= 5) m[k] = { stars: e.stars, note: e.note || "" };
+          } else if (e && (e.copied || e.posted || e.hidden || e.gem)) {
+            m[k] = { note: "", gem: e.gem, copied: e.copied, posted: e.posted, hidden: e.hidden };
+          }
+        });
+        setFb(m);
+      }
+      const cf = localStorage.getItem(COPIED_KEY);
+      if (cf) setCopiedFp(cf);
+      const hs = localStorage.getItem(HIST_KEY);
+      if (hs) setHist(JSON.parse(hs));
+    } catch {
+    }
+  }, []);
+  const toggleDone = (slot) => {
+    const was = done.includes(slot);
+    commit(slot, was ? "reopen" : "done", fb, hidden, was ? done.filter((x) => x !== slot) : [...done, slot]);
+  };
+  const hide = (id) => commit(slotOf(id), "hide " + labelOf(id), markN(fb, id, "hidden", true), hidden.includes(id) ? hidden : [...hidden, id], done);
+  const unhide = (id) => commit(slotOf(id), "unhide " + labelOf(id), markN(fb, id, "hidden", false), hidden.filter((x) => x !== id), done);
+  const anyUndo = Object.keys(hist).some((s) => hist[s].u.length > 0), undo = () => {
+    const s = latestSlot();
+    if (s) undoSlot(s);
+  };
+  const copy = (c) => {
+    mark(c.id, "copied", true, "copy " + c.label);
+    const ok = () => {
+      setCopied(c.id);
+      setTimeout(() => setCopied(""), 1500);
+    };
+    try {
+      navigator.clipboard.writeText(c.text).then(ok, () => fallback(c.text, ok));
+    } catch {
+      fallback(c.text, ok);
+    }
+  };
+  const types = useMemo(() => ["All", ...Array.from(new Set(ROWS.map((r) => r.Type || "")))], []), ql = q.trim().toLowerCase(), total = ROWS.reduce((n, r) => n + cardsFor(r).length, 0);
+  const tipStyle = (ac) => ({ background: "transparent", color: "#8e98aa", border: "1px solid #292f3a", borderRadius: 999, width: 20, height: 20, padding: 0, fontSize: 11, fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", boxSizing: "border-box", ["--hg-ac"]: ac });
+  const trendingPanel = /* @__PURE__ */ React.createElement("section", { className: "hg-trending", "aria-label": "Trending today" }, /* @__PURE__ */ React.createElement("div", { className: "hg-trending-title" }, "Trending today \xB7 " + DATE_LABEL), /* @__PURE__ */ React.createElement("div", { className: "hg-trend-grid" }, TRENDING.items.map((t, i) => /* @__PURE__ */ React.createElement("div", { className: "hg-trend-card", key: i }, t.url ? /* @__PURE__ */ React.createElement("a", { className: "hg-trend-title", href: t.url, target: "_blank", rel: "noopener noreferrer" }, t.title) : /* @__PURE__ */ React.createElement("div", { className: "hg-trend-title" }, t.title), /* @__PURE__ */ React.createElement("div", { className: "hg-trend-context" }, t.context)))), /* @__PURE__ */ React.createElement("div", { className: "hg-trend-takeaways" }, /* @__PURE__ */ React.createElement("span", null, "Study takeaways: "), "Short emotional one-liners work (", /* @__PURE__ */ React.createElement("a", { href: "https://x.com/theo/status/2118465321032106235", target: "_blank", rel: "noopener noreferrer" }, "theo"), ", 671 likes / 29.8k views), lived UX gripes (", /* @__PURE__ */ React.createElement("a", { href: "https://x.com/robj3d3/status/2118271500151333237", target: "_blank", rel: "noopener noreferrer" }, "robj3d3"), ", 54k views), concrete enumerated lists."));
+  return /* @__PURE__ */ React.createElement("div", { className: "hg-app" }, /* @__PURE__ */ React.createElement("style", null, CSS), dirty && /* @__PURE__ */ React.createElement("div", { className: "hg-banner", role: "status" }, /* @__PURE__ */ React.createElement("span", null, "\u26A0\uFE0F You have feedback you haven't copied yet"), /* @__PURE__ */ React.createElement("button", { className: "hg-button", onClick: copyFeedback }, /* @__PURE__ */ React.createElement(HgIcon, null, "\u29C9"), "Copy now")), /* @__PURE__ */ React.createElement("div", { className: "hg-container" }, /* @__PURE__ */ React.createElement("h1", { className: "hg-title" }, "Hugeicons Drafts Board"), /* @__PURE__ */ React.createElement("div", { className: "hg-subtitle" }, DATE_LABEL + " (" + DATE + ") \xB7 " + ROWS.length + " posts \xB7 " + total + " drafts and variants \xB7 " + hidden.length + " hidden"), /* @__PURE__ */ React.createElement("div", { className: "hg-toolbar-primary" }, /* @__PURE__ */ React.createElement("select", { className: "hg-select", value: type, onChange: (e) => setType(e.target.value) }, types.map((t) => /* @__PURE__ */ React.createElement("option", { key: t, value: t }, t === "All" ? "All types" : t))), /* @__PURE__ */ React.createElement("input", { className: "hg-search", value: q, placeholder: "Search text\u2026", onChange: (e) => setQ(e.target.value) }), /* @__PURE__ */ React.createElement("button", { className: "hg-button", onClick: undo, disabled: !anyUndo, title: "Undo the most recent action across all slots" }, /* @__PURE__ */ React.createElement(HgIcon, null, "\u21B6"), "Undo"), /* @__PURE__ */ React.createElement("button", { className: "hg-button", onClick: () => setShowHidden(!showHidden) }, /* @__PURE__ */ React.createElement(HgIcon, null, showHidden ? "\u25CC" : "\u25C9"), showHidden ? "Hide hidden" : "Show hidden")), /* @__PURE__ */ React.createElement("div", { className: "hg-toolbar-secondary" }, confirmClear && fbCount ? /* @__PURE__ */ React.createElement("span", { style: { display: "inline-flex", flexWrap: "wrap", gap: 8, alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { className: "hg-confirm-text" }, "Clear all feedback?"), /* @__PURE__ */ React.createElement("button", { className: "hg-button hg-danger-button", onClick: () => {
+    const n = {};
+    Object.keys(fb).forEach((k) => {
+      if (fb[k].hidden) n[k] = { hidden: true, note: "" };
+    });
+    saveFb(n);
+    setConfirmClear(false);
+  } }, "Yes, clear"), /* @__PURE__ */ React.createElement("button", { className: "hg-button", onClick: () => setConfirmClear(false) }, "Cancel")) : /* @__PURE__ */ React.createElement("button", { className: "hg-button", disabled: !fbCount, onClick: () => setConfirmClear(true) }, /* @__PURE__ */ React.createElement(HgIcon, null, "\u232B"), "Clear"), /* @__PURE__ */ React.createElement("span", { className: "hg-counters" }, /* @__PURE__ */ React.createElement("span", { style: { color: GEM_C } }, gemList.length + " posted \u{1F48E}"), " \xB7 ", /* @__PURE__ */ React.createElement("span", { style: { color: PICK_C } }, copiedList.length + " copied"), " \xB7 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#60A5FA" } }, postedList.length + " opened in X"), " \xB7 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#EA9A62" } }, skippedList.length + " skipped"), " \xB7 ", /* @__PURE__ */ React.createElement("span", { style: { color: DIS_C } }, disliked.length + " disliked"), " \xB7 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#FACC15" } }, ratedSlots.length + " slots rated")), /* @__PURE__ */ React.createElement("button", { className: "hg-button hg-feedback-button", style: { marginLeft: "auto" }, onClick: copyFeedback }, /* @__PURE__ */ React.createElement(HgIcon, null, "\u29C9"), fbCopied ? "Copied!" : "Copy my feedback")), ROWS.filter((r) => type === "All" || r.Type === type || r.Slot === "3").map((r) => {
+    const cards = cardsFor(r).filter((c) => !ql || c.text.toLowerCase().includes(ql)), slot = r.Slot || "";
+    if (slot === "3" && type !== "All" && r.Type !== type) return /* @__PURE__ */ React.createElement("div", { key: "trending" }, trendingPanel);
+    const isDone = done.includes(slot), ac = ACCENT[slot] || "#EA9A62";
+    const h = hist[slot] || { u: [], r: [] }, tu = h.u[h.u.length - 1], tr = h.r[h.r.length - 1], cur = fb["slot-" + slot]?.stars || 0, hv = hoverStar[slot] || 0, shown = hv || cur;
+    const slotNode = /* @__PURE__ */ React.createElement("div", { key: slot, className: "hg-slot", "data-slot-id": slot, style: { ["--slot-accent"]: ac } }, /* @__PURE__ */ React.createElement("div", { className: "hg-slot-history" }, /* @__PURE__ */ React.createElement("button", { className: "hg-history-button", disabled: !tu, title: tu ? "Undo: " + tu.label + " (" + h.u.length + ")" : "Nothing to undo", onClick: () => undoSlot(slot) }, /* @__PURE__ */ React.createElement(HgIcon, null, "\u21B6"), "Undo"), /* @__PURE__ */ React.createElement("button", { className: "hg-history-button", disabled: !tr, title: tr ? "Redo: " + tr.label + " (" + h.r.length + ")" : "Nothing to redo", onClick: () => redoSlot(slot) }, /* @__PURE__ */ React.createElement(HgIcon, null, "\u21B7"), "Redo")), /* @__PURE__ */ React.createElement("div", { className: "hg-slot-header" }, /* @__PURE__ */ React.createElement("div", { className: "hg-slot-title-group" }, /* @__PURE__ */ React.createElement("span", { className: "hg-slot-num" }, slot), /* @__PURE__ */ React.createElement("span", { className: "hg-slot-heading" }, "Slot " + slot + " \xB7 " + r.Post), isDone && /* @__PURE__ */ React.createElement("span", { className: "hg-rated" }, "Rated \u2713")), /* @__PURE__ */ React.createElement("div", { className: "hg-slot-controls" }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "flex-end" } }, /* @__PURE__ */ React.createElement("div", { className: "hg-star-group", role: "radiogroup", "aria-label": "Rate slot " + slot + " type", onMouseLeave: () => setHoverStar({ ...hoverStar, [slot]: 0 }) }, [1, 2, 3, 4, 5].map((s) => /* @__PURE__ */ React.createElement("button", { key: s, className: "hg-star", role: "radio", "aria-checked": cur === s, "aria-label": s + " star" + (s > 1 ? "s" : "") + ": " + STAR_MEANING[s], title: s + "/5 \u2014 " + STAR_MEANING[s], onMouseEnter: () => setHoverStar({ ...hoverStar, [slot]: s }), onFocus: () => setHoverStar({ ...hoverStar, [slot]: s }), onBlur: () => setHoverStar({ ...hoverStar, [slot]: 0 }), onClick: () => rateSlot(slot, s), style: { color: s <= shown ? ac : "#555" } }, "\u2605"))), /* @__PURE__ */ React.createElement("span", { className: "hg-star-hint", style: { color: shown ? ac : void 0 } }, shown ? shown + "/5 \xB7 " + STAR_MEANING[shown] : "Rate this type"), cur && fb["slot-" + slot].note.trim() ? /* @__PURE__ */ React.createElement("span", { className: "hg-note-preview" }, "\u201C\u201C"[0] + fb["slot-" + slot].note.trim() + "\u201D \xB7 ", /* @__PURE__ */ React.createElement("button", { onClick: () => inRef.current[slot]?.focus(), style: { background: "transparent", border: 0, padding: 0, color: ac, cursor: "pointer", textDecoration: "underline" } }, "edit")) : null), isDone && /* @__PURE__ */ React.createElement("button", { className: "hg-button", style: { borderColor: ac, color: ac }, title: "Expand this slot's drafts", onClick: () => toggleDone(slot) }, "Reopen"))), fb["slot-" + slot]?.stars ? (() => {
+      const saved = fb["slot-" + slot].note, val = drafts[slot] !== void 0 ? drafts[slot] : saved, unsaved = val !== saved, st = unsaved ? "unsaved" : nStat[slot] || "";
+      return /* @__PURE__ */ React.createElement("div", { className: "hg-note-row" }, /* @__PURE__ */ React.createElement("input", { ref: (el) => {
+        inRef.current[slot] = el;
+      }, className: "hg-note-input", value: val, placeholder: "why? (optional)", onChange: (e) => setDrafts({ ...drafts, [slot]: e.target.value }), onKeyDown: (e) => {
+        if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+          e.preventDefault();
+          e.currentTarget.blur();
+        }
+      }, onFocus: () => setFocN(slot), onBlur: () => {
+        setFocN("");
+        saveNote(slot);
+      }, style: { cursor: "text", border: "1px solid " + (flash[slot] ? ac : ac + "80"), boxShadow: flash[slot] ? "0 0 0 2px " + ac + "66" : "none", transition: "border-color .2s,box-shadow .2s,width .25s,max-width .25s,height .25s,font-size .25s,padding .25s", ...saved.trim() && !unsaved && focN !== slot ? { fontSize: 12, height: 28, padding: "0 8px", width: 240, maxWidth: 260 } : { fontSize: 13, height: 36, width: 520, maxWidth: "100%" }, flex: "0 1 auto", boxSizing: "border-box" } }), /* @__PURE__ */ React.createElement("button", { className: "hg-notes-save", onMouseDown: (e) => e.preventDefault(), onClick: () => {
+        const el = inRef.current[slot];
+        if (el && document.activeElement === el) el.blur();
+        else saveNote(slot);
+      }, disabled: !unsaved, "aria-hidden": !unsaved, tabIndex: unsaved ? 0 : -1, style: { border: "1px solid " + ac, color: "#0b0e13", background: ac, fontSize: 12, height: 28, padding: "0 10px", visibility: unsaved ? "visible" : "hidden", cursor: "pointer" } }, "Save"), /* @__PURE__ */ React.createElement("span", { className: "hg-note-status", "aria-live": "polite", style: { display: "inline-block", width: 84, fontSize: 12 } }, st === "unsaved" && /* @__PURE__ */ React.createElement("span", { style: { opacity: 0.7 } }, "Unsaved"), st === "saving" && "Saving\u2026", st === "saved" && /* @__PURE__ */ React.createElement("span", { style: { display: "inline-block", color: "#0b0e13", background: ac, borderRadius: 999, padding: "1px 8px", animation: "hgPulse .45s ease-out" } }, "\u2713 Saved")));
+    })() : null, /* @__PURE__ */ React.createElement("div", { className: "hg-slot-meta" }, /* @__PURE__ */ React.createElement("span", null, r.Type), CONTEXT[slot] && (() => {
+      const cx = CONTEXT[slot], kid = "ctx-" + slot;
+      return /* @__PURE__ */ React.createElement("span", { style: { position: "relative", display: "inline-block", width: 20, height: 20 }, onMouseEnter: () => setTip(kid), onMouseLeave: () => setTip("") }, cx.url ? /* @__PURE__ */ React.createElement("a", { className: "hg-bang hg-context-trigger", href: cx.url, target: "_blank", rel: "noopener noreferrer", "aria-label": "Open source: " + cx.text, "aria-describedby": "tip-" + kid, onFocus: () => setTip(kid), onBlur: () => setTip(""), onClick: (e) => e.stopPropagation(), style: tipStyle(ac) }, "!") : /* @__PURE__ */ React.createElement("button", { className: "hg-bang hg-context-trigger", "aria-label": "News context: " + cx.text, onFocus: () => setTip(kid), onBlur: () => setTip(""), style: tipStyle(ac) }, "!"), tip === kid && /* @__PURE__ */ React.createElement("div", { className: "hg-tooltip", id: "tip-" + kid, role: "tooltip", style: { borderTopColor: ac } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#f0f2f6", fontWeight: 700, marginBottom: 4 } }, "News context"), /* @__PURE__ */ React.createElement("div", null, cx.text), cx.media && /* @__PURE__ */ React.createElement("div", { style: { marginTop: 8, color: "#8e98aa", fontSize: 12 } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#f0f2f6", fontWeight: 600 } }, "Media: "), cx.media)));
+    })(), /* @__PURE__ */ React.createElement("span", null, " \xB7 " + r.Status + " \xB7 " + DATE_LABEL)), !isDone && /* @__PURE__ */ React.createElement("div", null, r.Feedback && /* @__PURE__ */ React.createElement("div", { style: { marginTop: 6 } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#8e98aa" } }, "Feedback: "), /* @__PURE__ */ React.createElement("span", { style: { whiteSpace: "pre-wrap" } }, r.Feedback)), /* @__PURE__ */ React.createElement("div", { className: "hg-card-grid" }, cards.map((c) => {
+      const isHidden = hidden.includes(c.id), ghost = isHidden && !showHidden, g = !!fb[c.id]?.gem, rt = RATINGS[c.id], tc = rt ? tierColor(rt.score) : "";
+      return /* @__PURE__ */ React.createElement("div", { key: c.id, "data-card-id": c.id, className: "hg-card" + (c.label === "Draft" ? " hg-card--draft" : "") + (isHidden && !ghost ? " is-hidden" : ""), style: { visibility: ghost ? "hidden" : "visible" } }, ghost && /* @__PURE__ */ React.createElement("div", { className: "hg-hidden-placeholder" }, /* @__PURE__ */ React.createElement("span", null, c.label + " \xB7 hidden"), /* @__PURE__ */ React.createElement("button", { className: "hg-button", onClick: () => unhide(c.id) }, "\u21BA Unhide")), /* @__PURE__ */ React.createElement("div", { className: "hg-card-head" }, /* @__PURE__ */ React.createElement("div", { className: "hg-card-id" }, /* @__PURE__ */ React.createElement("span", { className: "hg-card-label" }, c.label), fb[c.id]?.copied && /* @__PURE__ */ React.createElement("span", { className: "hg-card-status", style: { color: PICK_C, border: "1px solid " + PICK_C + "80" } }, "Copied"), fb[c.id]?.posted && /* @__PURE__ */ React.createElement("span", { className: "hg-card-status", style: { color: "#60A5FA", border: "1px solid #60A5FA80" } }, "Opened in X"), g && /* @__PURE__ */ React.createElement("span", { className: "hg-card-status", style: { color: GEM_C, border: "1px solid " + GEM_C } }, "Posted \u2713"), rt && /* @__PURE__ */ React.createElement("span", { style: { position: "relative", display: "inline-block" }, onMouseEnter: () => setTip(c.id), onMouseLeave: () => setTip("") }, /* @__PURE__ */ React.createElement("button", { className: "hg-score", "aria-label": "Engagement " + rt.score + " out of 10. " + rt.why, onFocus: () => setTip(c.id), onBlur: () => setTip(""), style: { color: tc } }, "\u2605 " + rt.score + "/10"), tip === c.id && /* @__PURE__ */ React.createElement("div", { className: "hg-tooltip", role: "tooltip", style: { width: 260, borderTopColor: ac } }, /* @__PURE__ */ React.createElement("div", { style: { color: tc, fontWeight: 700, marginBottom: 4 } }, tierName(rt.score) + " engagement \xB7 " + rt.score + "/10"), rt.why))), /* @__PURE__ */ React.createElement("div", { className: "hg-card-controls" }, /* @__PURE__ */ React.createElement("button", { className: "hg-gem-button", title: g ? "Posted (click to unmark)" : "I posted this", "aria-pressed": g, "aria-label": "Mark as posted", onClick: () => mark(c.id, "gem", !g, (g ? "unmark \u{1F48E} " : "\u{1F48E} ") + c.label), style: { boxShadow: g ? "0 0 10px " + GEM_C + ",0 0 22px " + ac + "99" : "none", animation: g ? "gemPulse 2s ease-in-out infinite" : "none", opacity: g ? 1 : 0.6 } }, "\u{1F48E}"), /* @__PURE__ */ React.createElement("button", { className: "hg-hide-button", title: isHidden ? "Unhide" : "Hide", onClick: () => isHidden ? unhide(c.id) : hide(c.id) }, isHidden ? "\u21BA" : "\xD7"))), /* @__PURE__ */ React.createElement("div", { className: "hg-card-text" }, c.text), /* @__PURE__ */ React.createElement("div", { className: "hg-card-footer" }, /* @__PURE__ */ React.createElement("a", { className: "hg-post-link", href: c.url, target: "_blank", rel: "noopener noreferrer", onClick: () => mark(c.id, "posted", true, "open in X " + c.label), onAuxClick: () => mark(c.id, "posted", true, "open in X " + c.label) }, /* @__PURE__ */ React.createElement(HgIcon, null, "\u2197"), "Post on X"), /* @__PURE__ */ React.createElement("button", { className: "hg-button hg-copy-button", onClick: () => copy(c) }, /* @__PURE__ */ React.createElement(HgIcon, null, copied === c.id ? "\u2713" : "\u29C9"), copied === c.id ? "Copied" : "Copy")));
+    }))));
+    return slot === "3" ? /* @__PURE__ */ React.createElement("div", { key: "3-wrap" }, slotNode, trendingPanel) : slotNode;
+  })));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ React.createElement(App, null));
+
+</script>
+</body>
+</html>

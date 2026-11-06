@@ -12,6 +12,105 @@
 <body>
 <div id="root"></div>
 <script>
+(function () {
+  'use strict';
+  var date = '2026-11-06', supabaseUrl = 'https://uayxhyruyapwkkekdefs.supabase.co', apiKey = 'sb_publishable_rflL8Bh4BPC6gGspOeUu9A_JyTaNYu-';
+  var prefix = 'hugeicons-', suffix = '-' + date, keys = {}, pending = false, applying = false;
+  var timer = null, inFlight = false, queued = false, lastRemote = '', destroyed = false;
+  var remoteTable = supabaseUrl + '/rest/v1/board_state';
+  function isBoardKey(key) { return typeof key === 'string' && key.indexOf(prefix) === 0 && key.slice(-suffix.length) === suffix; }
+  function blob() {
+    var state = {};
+    Object.keys(keys).forEach(function (key) { try { state[key] = localStorage.getItem(key); } catch (_) {} });
+    return { version: 1, savedAt: new Date().toISOString(), state: state };
+  }
+  var indicator = document.createElement('div');
+  indicator.id = 'hg-sync-status'; indicator.setAttribute('role', 'status'); indicator.setAttribute('aria-live', 'polite');
+  indicator.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:1000;padding:5px 10px;border:1px solid #323a47;border-radius:999px;background:#11151cf2;color:#8e98aa;font:11px/1.4 Inter,system-ui,sans-serif;box-shadow:0 2px 12px #0005;pointer-events:none';
+  function status(text, color) { indicator.textContent = text; indicator.style.color = color || '#8e98aa'; }
+  function payload(body) { return JSON.stringify({ day: date, state: body, updated_at: new Date().toISOString() }); }
+  function headers(prefer) { return { apikey: apiKey, Authorization: 'Bearer ' + apiKey, 'Content-Type': 'application/json', Prefer: prefer }; }
+  function storeRemote(body) {
+    if (!body || typeof body.state !== 'object') return;
+    applying = true;
+    try {
+      Object.keys(body.state).forEach(function (key) {
+        if (!isBoardKey(key)) return;
+        var value = body.state[key];
+        if (value === null) localStorage.removeItem(key); else localStorage.setItem(key, value);
+        keys[key] = true;
+      });
+      if (body.savedAt) lastRemote = body.savedAt;
+    } finally { applying = false; }
+  }
+  function save(keepalive) {
+    if (destroyed && !keepalive) return Promise.resolve();
+    clearTimeout(timer); timer = null;
+    if (inFlight) { queued = true; return Promise.resolve(); }
+    inFlight = true; pending = false;
+    var body = blob();
+    status(keepalive ? 'Saving…' : 'Saving…');
+    return fetch(remoteTable + '?on_conflict=day', {
+      method: 'POST', headers: headers('resolution=merge-duplicates,return=minimal'),
+      body: payload(body), keepalive: !!keepalive
+    }).then(function (response) {
+      if (!response.ok) throw new Error('Sync failed: ' + response.status);
+      lastRemote = body.savedAt; status('Synced ✓', '#57C4A8');
+    }).catch(function () { pending = true; status('Offline – saved locally', '#EA9A62'); })
+      .then(function () { inFlight = false; if (queued) { queued = false; schedule(0); } });
+  }
+  function schedule(delay) {
+    if (applying) return;
+    pending = true; status('Saving…');
+    clearTimeout(timer); timer = setTimeout(function () { save(false); }, delay === undefined ? 600 : delay);
+  }
+  var nativeSet = Storage.prototype.setItem;
+  Storage.prototype.setItem = function (key, value) {
+    nativeSet.call(this, key, value);
+    if (this === localStorage && isBoardKey(key)) { keys[key] = true; if (!applying) schedule(600); }
+  };
+  function localIsNewer(remoteTime) {
+    var local = {};
+    Object.keys(keys).forEach(function (key) { try { local[key] = localStorage.getItem(key); } catch (_) {} });
+    var raw = local['hugeicons-history-' + date];
+    if (!remoteTime || !raw) return false;
+    try {
+      var histories = JSON.parse(raw), latest = 0;
+      Object.keys(histories).forEach(function (slot) {
+        var h = histories[slot];
+        ['u', 'r'].forEach(function (side) { (h[side] || []).forEach(function (step) { if (step.ts > latest) latest = step.ts; }); });
+      });
+      return latest > Date.parse(remoteTime);
+    } catch (_) { return false; }
+  }
+  function pull(initial) {
+    if (destroyed || (!initial && (pending || inFlight || document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)))) return Promise.resolve();
+    return fetch(remoteTable + '?day=eq.' + encodeURIComponent(date) + '&select=state,updated_at', {
+      headers: headers(''), cache: 'no-store'
+    }).then(function (response) { if (!response.ok) throw new Error('Fetch failed: ' + response.status); return response.json(); })
+      .then(function (rows) {
+        if (!rows.length) { if (initial) status('Synced ✓', '#57C4A8'); return; }
+        var body = rows[0].state;
+        if (initial || (body.savedAt && body.savedAt !== lastRemote && !localIsNewer(body.savedAt))) {
+          storeRemote(body); window.__boardRemoteLoaded = true;
+        }
+        if (initial) status('Synced ✓', '#57C4A8');
+      }).catch(function () { if (initial) status('Offline – saved locally', '#EA9A62'); });
+  }
+  window.__boardStart = pull(true);
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden' && pending) save(true);
+    else if (document.visibilityState === 'visible') { save(false).then(function () { pull(false); }); }
+  });
+  window.addEventListener('pagehide', function () { if (pending) save(true); });
+  window.addEventListener('focus', function () { pull(false); });
+  window.addEventListener('online', function () { save(false).then(function () { pull(false); }); });
+  setInterval(function () { pull(false); }, 20000);
+  document.body.appendChild(indicator); status('Syncing…');
+}());
+
+</script>
+<script>
 const { useState, useEffect, useMemo, useRef } = React;
 const DATE = "2026-11-06";
 const DATE_LABEL = "Fri Nov 6";

@@ -83,20 +83,22 @@
       return latest > Date.parse(remoteTime);
     } catch (_) { return false; }
   }
-  function pull(initial) {
-    if (destroyed || (!initial && (pending || inFlight || document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)))) return Promise.resolve();
+  function pull(initial, force) {
+    if (destroyed || (!initial && !force && (pending || inFlight || document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)))) return Promise.resolve();
     return fetch(remoteTable + '?day=eq.' + encodeURIComponent(date) + '&select=state,updated_at', {
       headers: headers(''), cache: 'no-store'
     }).then(function (response) { if (!response.ok) throw new Error('Fetch failed: ' + response.status); return response.json(); })
       .then(function (rows) {
-        if (!rows.length) { if (initial) status('Synced ✓', '#57C4A8'); return; }
+        if (!rows.length) { if (initial) status('Synced ✓', '#57C4A8'); return false; }
         var body = rows[0].state;
-        if (initial || (body.savedAt && body.savedAt !== lastRemote && !localIsNewer(body.savedAt))) {
+        if (initial || force || (body.savedAt && body.savedAt !== lastRemote && !localIsNewer(body.savedAt))) {
           storeRemote(body); window.__boardRemoteLoaded = true;
           if (!initial) window.location.reload();
+          return true;
         }
         if (initial) status('Synced ✓', '#57C4A8');
-      }).catch(function () { if (initial) status('Offline – saved locally', '#EA9A62'); });
+        return false;
+      }).catch(function () { if (initial) status('Offline – saved locally', '#EA9A62'); return false; });
   }
   window.__boardStart = pull(true);
   document.addEventListener('visibilitychange', function () {

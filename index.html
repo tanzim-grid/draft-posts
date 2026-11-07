@@ -14,7 +14,7 @@
 <script>
 (function () {
   'use strict';
-  var date = '2026-11-06', supabaseUrl = 'https://uayxhyruyapwkkekdefs.supabase.co', apiKey = 'sb_publishable_rflL8Bh4BPC6gGspOeUu9A_JyTaNYu-';
+  var date = '2026-11-07', supabaseUrl = 'https://uayxhyruyapwkkekdefs.supabase.co', apiKey = 'sb_publishable_rflL8Bh4BPC6gGspOeUu9A_JyTaNYu-';
   var prefix = 'hugeicons-', suffix = '-' + date, keys = {}, pending = false, applying = false;
   var timer = null, inFlight = false, queued = false, lastRemote = '', destroyed = false;
   var remoteTable = supabaseUrl + '/rest/v1/board_state';
@@ -115,143 +115,92 @@
 </script>
 <script>
 const { useState, useEffect, useMemo, useRef } = React;
-const DATE = "2026-11-06";
-const DATE_LABEL = "Fri Nov 6";
+const DATE = "2026-11-07";
+const DATE_LABEL = "Sat Nov 7";
 const ROWS = [
-  { "Post": "Why is AI always a sparkle?", "Slot": "1", "Type": "Engagement question", "Status": "Drafted", "Feedback": null, "Draft": 'Why does every AI feature get the same \u2728 icon?\n\nGenerate. Summarize. Rewrite. Translate.\n\nAll sparkles.\n\nGenuine question: what should "AI" actually look like as an icon?', "Variant 1": "Every AI button in every app:\n\n\u2728\n\nWhat should the AI icon be instead? Wrong answers welcome.", "Variant 2": "why is every ai feature a sparkle. genuinely asking", "Variant 3": "Count the \u2728 icons in your app right now.\n\nIf it's more than 3, your users can't tell your AI features apart.\n\nWhat would you use instead?", "Variant 4": `Designers in 2026:
+  { "Post": "Engineer gap after AI (take)", "Slot": "1", "Type": "Meme/Casual", "Status": "Drafted", "Feedback": null, "Draft": "the average vs best engineer gap was never really 10x.\n\nAI just made it feel like 100x.\n\nsame tools. wildly different outcomes.", "Variant 1": "average engineers got faster.\nbest engineers got a different job.\n\nAI didn't close the gap. it stretched it.", "Variant 2": "same agent. same repo. same prompt.\n\none person ships. one person babysits.\n\nthe gap was never the tools.", "Variant 3": "AI made the bottleneck obvious:\n\ntaste. judgment. knowing what NOT to generate.", "Variant 4": "everyone has the same models now.\n\nthe difference is who can still tell good output from confident garbage.", "Variant 5": "the 10x engineer debate is back.\n\nexcept now it's 100x, and the lever is how you use agents.", "Variant 6": "AI didn't make bad engineers good.\n\nit made good engineers terrifyingly productive.", "Variant 7": "shipping used to be limited by typing speed.\n\nnow it's limited by taste.", "Variant 8": "the gap after AI isn't who can write code.\n\nit's who can decide what code should exist.", "Variant 9": "give two teams the same agent for a week.\n\none ships a product. one ships a mess with tests.\n\ntools aren't the differentiator.", "Variant 10": "AI compressed the easy parts.\n\nthe hard parts got louder." },
+  { "Post": "What agents still can't touch (Q)", "Slot": "2", "Type": "Engagement question", "Status": "Drafted", "Feedback": null, "Draft": "what's the first thing you check when an agent PR looks too clean?", "Variant 1": "which part of your stack do you still refuse to let an agent touch?", "Variant 2": "be honest: when an agent ships a PR with zero comments, do you trust it or get suspicious?", "Variant 3": "what's the last thing you'd hand an agent on your team?", "Variant 4": "agent opens a PR. looks perfect. what's your first red flag?", "Variant 5": "where do you still want a human in the loop, no matter how good the agent gets?", "Variant 6": "what's harder to review: agent code that looks messy, or agent code that looks done?", "Variant 7": "if an agent rewrote your auth tomorrow, would you merge it?", "Variant 8": "what's one file in your repo you'd never let an agent edit unsupervised?", "Variant 9": "devs who use agents daily: what's the first smell that tells you a PR needs a human rewrite?", "Variant 10": "agent PRs that pass CI still make me pause. what makes you open the diff first?" },
+  { "Post": "OpenRouter Auto Code (release)", "Slot": "3", "Type": "Product update", "Status": "Drafted", "Feedback": null, "Draft": "OpenRouter just shipped Auto Code.\n\na router built for coding harnesses, not general chat.\n\n> model: openrouter/auto-code\n> tuned for pass rate + latency\n> claims Opus-like scores at ~74% lower cost per task\n\nstop hand-picking models every prompt.", "Variant 1": 'new from OpenRouter: Auto Code (openrouter/auto-code).\n\nsame routing engine as Auto, but specialized for coding agents.\n\nless "which model today?", more "just ship it".', "Variant 2": "OpenRouter rebuilt Auto Router and added Auto Code.\n\neleven signals per request. 3x faster routing at p90 in their live test.\n\ncoding harnesses finally get their own router.", "Variant 3": "openrouter/auto-code is live.\n\nbuilt for agent harnesses. weighs speed, pass rate, cost per solved task.\n\nif you're still hardcoding model strings for every coding agent, this is the alternative.", "Variant 4": "OpenRouter Auto Code:\n\n> coding-specialized router\n> higher tier of coding models\n> claims scores in line with Claude Opus 5.5 at 74% less cost per task\n\nworth a try if your agent keeps picking the wrong model.", "Variant 5": "the interesting OpenRouter launch isn't Auto.\n\nit's Auto Code \u2014 a router that assumes you're in a coding harness.", "Variant 6": "OpenRouter: Auto Router rebuilt + new Auto Code router.\n\nrouting step 3x faster at p90. Auto Code tuned for agents that write code.\n\nmodel: openrouter/auto-code", "Variant 7": "stop arguing about which coding model to use.\n\nOpenRouter's Auto Code picks from the pool based on the request \u2014 latency, pass rate, cost.\n\nset model to openrouter/auto-code and move on.", "Variant 8": "Auto Code on OpenRouter is for people tired of babysitting model choice in coding agents.\n\nsame foundation as Auto. different priorities: speed + pass rate over lowest cost.", "Variant 9": "OpenRouter shipped openrouter/auto-code.\n\nspecialized for coding work. sees provider health, cache, live pricing.\n\nif your agent already runs through OpenRouter, this is a one-line swap.", "Variant 10": "new OpenRouter slug worth knowing: openrouter/auto-code.\n\ncoding-first router. claims Opus-tier benchmark scores at much lower cost per task.\n\ntrying it on the next agent session." },
+  { "Post": "ChatGPT Search Console (trending)", "Slot": "4", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "OpenAI is building ChatGPT business analytics.\n\nbasically Search Console, but for how your brand shows up in ChatGPT answers.\n\nimpressions. clicks. visibility.\n\nSEO people about to invent a whole new job title.", "Variant 1": 'ChatGPT is getting a Search Console equivalent for businesses.\n\ntrack impressions and clicks inside ChatGPT answers.\n\nthe "are we even visible to AI?" dashboard just became real.', "Variant 2": "OpenAI to ChatGPT business visibility analytics.\n\nif Google Search Console was your morning ritual, this is the next tab.", "Variant 3": '"ChatGPT Search Console" is trending for a reason.\n\nbusinesses will track how often they appear in ChatGPT answers \u2014 impressions, clicks, the works.', "Variant 4": "the SEO playbook just got a new chapter:\n\noptimize for ChatGPT answers, then measure it like search.", "Variant 5": "OpenAI building analytics so businesses can see how they show up in ChatGPT.\n\nsearch visibility, but for AI answers.\n\nmarketers: update your dashboards.", "Variant 6": `first it was "are we in the training data?"
 
-"AI summarize" \u2728
-"AI rewrite" \u2728
-"AI search" \u2728
-"AI settings" \u2728
+now it's "how many ChatGPT answers mention us this week?"
 
-Help. What's the alternative?`, "Variant 5": 'Hot take: the \u2728 icon has stopped meaning anything.\n\nIt used to say "magic". Now it just says "we added AI somewhere".\n\nAgree or disagree?', "Variant 6": "Quick poll for designers and devs:\n\nHow do you mark AI features in your UI?\n\n1. \u2728 sparkle (like everyone)\n2. A custom icon\n3. Just a text label\n4. We don't mark them", "Variant 7": "The sparkle icon is the new hamburger menu.\n\nEveryone uses it. Nobody agrees what it means.\n\nWhat's your AI icon of choice?", "Variant 8": `Imagine if every "save" button used a different icon.
+OpenAI's business analytics make that measurable.`, "Variant 7": "ChatGPT answer visibility is becoming a metric.\n\nOpenAI's business analytics = impressions + clicks inside ChatGPT.\n\nthe AI-search era just got a reporting layer.", "Variant 8": "SEO teams watching OpenAI ship ChatGPT visibility analytics:\n\nsame muscle memory. new surface.", "Variant 9": "OpenAI: businesses will track impressions/clicks for how they appear in ChatGPT answers.\n\ncall it Search Console for ChatGPT. the name sticks for a reason.", "Variant 10": "if your brand strategy still stops at Google rankings, ChatGPT visibility analytics just made that incomplete." },
+  { "Post": "Harness engineering (trending)", "Slot": "5", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": `"harness engineering" is having a moment.
 
-That's AI features right now, except they all use the same one.
+prompts. memory. verification loops. evals.
 
-What's the better AI icon?`, "Variant 9": "Building an AI feature this week?\n\nBefore you reach for \u2728, ask: would a user know what this button does without the label?\n\nWhat icon do you use for AI?", "Variant 10": "If \u2728 means AI, what does AI-but-it-actually-works look like?\n\nDrop your best icon idea \u{1F447}" },
-  { "Post": '"Nobody notices icons" doubters', "Slot": "2", "Type": "Meme/Casual", "Status": "Drafted", "Feedback": null, "Draft": `"Nobody notices icons"
-"Users don't care about stroke width"
-"Just use emojis, it's fine"
+Anthropic and Google are hiring for it.
 
-Then they open your app and it just feels... off.
-
-They noticed.`, "Variant 1": `"Nobody notices icons"
-
-Users can't name it. They still feel it.`, "Variant 2": `"icons don't matter"
-
-sure. that's why your app feels like a template`, "Variant 3": `Things I've been told:
-
-- "Users don't look at icons"
-- "Stroke width is a designer thing"
-- "Emojis work fine"
-
-Things users say:
-
-- "It just feels cheap"
-
-Same thing.`, "Variant 4": `Users won't tell you your icons are inconsistent.
-
-They'll just say the app feels "kind of janky" and leave.`, "Variant 5": `"Just use emojis, it's fine"
-
-It's fine until your settings page looks like a group chat.`, "Variant 6": "Nobody notices good icons.\n\nEverybody notices bad ones.\n\nThat's the whole job.", "Variant 7": `"We'll fix the icons later"
-later:
-> 3 libraries
-> 5 sizes
-> 1 emoji doing a job it wasn't hired for`, "Variant 8": "People who say nobody notices icons have never watched a user hesitate over the wrong one.", "Variant 9": "Icons are like a referee.\n\nNobody notices when they're good. Everyone has opinions when they're bad.", "Variant 10": '"nobody notices icons" is what people say right before a user taps delete instead of share' },
-  { "Post": "My first project vs now (icons)", "Slot": "3", "Type": "Tip", "Status": "Drafted", "Feedback": null, "Draft": "Icons in my first side project:\n\n- 3 different libraries\n- 7 random sizes\n- emojis as backup\n\nIcons now:\n\n- one family\n- 16 / 20 / 24\n- same stroke everywhere\n\nSame dev. Same skills.\n\nThe app just looks like it can be trusted.", "Variant 1": `My first project's icons: 3 libraries, 7 sizes, 2 emojis.
-
-Now: one family, 3 sizes, one stroke.
-
-That single change did more for "polish" than any redesign.`, "Variant 2": `Year 1 me: "I'll just grab whatever icon looks close enough"
-
-Now me: one family or nothing.
-
-What changed? I saw my app next to a real one.`, "Variant 3": `It took me:
-
-- 1 project to mix 3 icon packs
-- 1 user to say "it feels off"
-- 1 afternoon to switch to one family
-
-Should've done step 3 first.`, "Variant 4": "The cheapest polish upgrade I know:\n\n> pick one icon family\n> pick 3 sizes\n> lock the stroke width\n\nThat's it. No redesign needed.", "Variant 5": "then:\n- whatever icon google showed first\n\nnow:\n- one family, one stroke, three sizes\n\nthe app didn't change. the trust did.", "Variant 6": 'If your side project feels "almost there", check your icons.\n\nMine had 3 libraries and 7 sizes.\n\nFixing that took one afternoon.', "Variant 7": "Beginner icon setup: vibes.\nPro icon setup: rules.\n\n> one family\n> 16 / 20 / 24\n> same stroke\n\nSteal the rules.", "Variant 8": "Looked at my first app again today.\n\nThe code was fine. The features were fine.\n\nThe icons came from 3 different universes \u{1F605}", "Variant 9": "Polish isn't a skill you're born with.\n\nIt's mostly saying no to the 4th icon library.", "Variant 10": `What changed between my first app and now?
-
-Not my code. Not my design skills.
-
-I just stopped mixing icons.
-
-What was your "oh, that's why" moment?` },
-  { "Post": "Cursor one-click web apps (trending)", "Slot": "4", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "Cursor just shipped one-click web apps.\n\nPrompt \u2192 scaffold \u2192 Postgres \u2192 auth \u2192 deploy \u2192 shareable URL.\n\nAll inside the editor.\n\nlocalhost is starting to feel optional.", "Variant 1": "Cursor: prompt it, get a live URL.\n\nThe distance between idea and shareable app just collapsed again.", "Variant 2": `cursor now scaffolds, auths, and deploys from one prompt. the "i'll host it later" era is cooked`, "Variant 3": "New in Cursor: one-click web app deploy.\n\n> natural language scaffold\n> optional Postgres\n> SSO auth\n> security checks\n> shareable URL\n\nInternal tools just got a lot harder to justify delaying.", "Variant 4": "Guillermo Rauch already reacting to Cursor's one-click deploy.\n\nthe editor \u2192 production loop is the whole game now", "Variant 5": 'Remember when "deploy" meant a separate afternoon?\n\nCursor just made it a button next to the prompt.', "Variant 6": "Cursor's new flow: build and deploy without leaving the IDE.\n\nWho's actually shipping internal tools with this today?", "Variant 7": "prompt \u2192 live url\n\nthat's the whole changelog. and it's huge.", "Variant 8": "The interesting part of Cursor's one-click web apps isn't the scaffold.\n\nIt's that deploy stopped being a different product.", "Variant 9": "every coding agent wants to write your code.\nCursor just decided it also wants to host it.", "Variant 10": "If your side project still dies on localhost, Cursor just removed the last excuse." },
-  { "Post": "Cat Wu leaves Anthropic for OpenAI (trending)", "Slot": "5", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "Cat Wu, who led Claude Code at Anthropic, just joined OpenAI.\n\nClaude Code \u2192 OpenAI core product.\n\nThe agent wars aren't just about models anymore. They're about who keeps the people who shipped the UX.", "Variant 1": "the Claude Code PM just walked over to OpenAI.\n\ntalent is the real context window.", "Variant 2": "Cat Wu built Claude Code. Now she's shaping OpenAI's core products.\n\nWhoever owns the agent UX owns the next decade of shipping.", "Variant 3": "Anthropic IPO filing. Claude Code PM exits to OpenAI.\n\nquiet week in AI, nothing to see here.", "Variant 4": "Models are converging.\nPMs who ship the interface aren't.\n\nCat Wu \u2192 OpenAI is the latest proof.", "Variant 5": "you can copy a model. you can't copy the person who made developers actually use it.", "Variant 6": `Claude Code's product lead just joined OpenAI.
-
-Curious who "wins" the agent race when the builders keep switching teams.`, "Variant 7": "labs are fighting for the same 50 people who know how to make agents feel usable.\n\ntoday's transfer: Cat Wu.", "Variant 8": "OpenAI hired the person who made Claude Code click for a lot of us.\n\nthat's not a press release. that's a product bet.", "Variant 9": "S-1 filing one week. product lead exits the next.\n\nAI companies really don't do quiet months.", "Variant 10": "Honest take: the Claude Code \u2192 OpenAI move matters more than another benchmark screenshot." }
+the job isn't writing the agent anymore. it's keeping it honest.`, "Variant 1": "harness engineering = the discipline around AI agents.\n\n> prompt design\n> memory\n> verification loops\n> eval harnesses\n\nAnthropic/Google are hiring. the agent itself is the easy part now.", "Variant 2": "the new role in AI teams: harness engineer.\n\nsomeone who owns the loops that keep agents from going off the rails.", "Variant 3": "everyone wants to build agents.\n\nthe scarce skill is building the harness \u2014 prompts, memory, verification, evals.", "Variant 4": '"harness engineering" trending for a reason.\n\nprompts + memory + verification loops are becoming a real discipline. big labs are hiring into it.', "Variant 5": "writing the agent was 2024.\n\n2026 is harness engineering: the scaffolding that makes agents reliable.", "Variant 6": "Anthropic and Google hiring harness engineers.\n\ntranslation: the bottleneck moved from model quality to how you wrap the model.", "Variant 7": "if your agent fails in production, the bug is usually in the harness \u2014 not the model.\n\nthat's why harness engineering is suddenly a job title.", "Variant 8": "prompts. memory. verification loops.\n\nthat's harness engineering. and it's what separates demo agents from shipped ones.", "Variant 9": "the hottest AI discipline right now isn't model training.\n\nit's harness engineering \u2014 the systems around the agent.", "Variant 10": "harness engineering in one line:\n\nmake the agent useful, then make sure it stays that way." }
 ];
 const RATINGS = {
-  "1-D": { score: 8, why: "Concrete enumerated AI verbs + open question; sparkle-fatigue is a real designer gripe and invites pile-on replies." },
-  "1-V1": { score: 8, why: "Visual one-liner with wrong-answers invitation; short and reply-friendly." },
-  "1-V2": { score: 9, why: "Lowercase craigweiss energy; short feeling, no formula opener. Very quotable." },
-  "1-V3": { score: 7, why: "Concrete threshold (more than 3) plus a clear ask; a bit longer than the punchiest lines." },
-  "1-V4": { score: 8, why: "Enumerated list of identical sparkles makes the joke land; matches Nov 4 listed-examples win." },
-  "1-V5": { score: 3, why: "Formulaic 'Hot take:' opener the audience has tuned out. The point is fine; the frame is not." },
-  "1-V6": { score: 6, why: "Poll format drives taps but less personal feeling than short one-liners." },
-  "1-V7": { score: 7, why: "Hamburger comparison is memorable; slightly familiar analogy." },
-  "1-V8": { score: 8, why: "Strong save-button analogy that makes the inconsistency feel absurd." },
-  "1-V9": { score: 6, why: "Useful prompt for builders; reads a bit tip-like for an engagement slot." },
-  "1-V10": { score: 7, why: "Playful twist on sparkle meaning; good for replies, medium repost potential." },
-  "2-D": { score: 9, why: "Quoted-doubt stack into a gut-punch payoff ('They noticed'). Short feeling; high reply bait." },
-  "2-V1": { score: 9, why: "Two-line emotional truth. Extremely quotable." },
-  "2-V2": { score: 8, why: "Lowercase dry roast; template-app jab lands for pro builders." },
-  "2-V3": { score: 8, why: "Before/after quote lists make the contradiction concrete." },
-  "2-V4": { score: 8, why: "Specific user language ('kind of janky') feels true." },
-  "2-V5": { score: 9, why: "Group-chat settings page image is painfully funny and specific." },
-  "2-V6": { score: 9, why: "Three-line craft statement that carries a feeling. Peak one-liner set." },
-  "2-V7": { score: 7, why: "Enumerated 'later' mess is concrete; a bit longer." },
-  "2-V8": { score: 8, why: "Watched-a-user-hesitate detail makes the argument visceral." },
-  "2-V9": { score: 6, why: "Referee analogy is clear but a little slogan-y." },
-  "2-V10": { score: 8, why: "Delete-vs-share punchline is concrete and scary. Strong closer." },
-  "3-D": { score: 7, why: "Before/after enumerated lists (robj3d3-style); practical mid-tier vs punchiest one-liners." },
-  "3-V1": { score: 7, why: "Clean then/now contrast; useful but tip-shaped." },
-  "3-V2": { score: 8, why: "Year-1 vs now dialogue feels lived-in and honest." },
-  "3-V3": { score: 8, why: "Three-step chronology with a punchline; concrete and short." },
-  "3-V4": { score: 6, why: "Checklist tip format; less feeling than emotional one-liners." },
-  "3-V5": { score: 8, why: "Lowercase then/now with 'the trust did' payoff. Strong feeling." },
-  "3-V6": { score: 6, why: "Helpful diagnostic; soft opener." },
-  "3-V7": { score: 5, why: "'Beginner/Pro' framing talks down a bit for this audience." },
-  "3-V8": { score: 7, why: "Honest look-back with a funny closer; emoji softens the punch." },
-  "3-V9": { score: 8, why: "Short craft line about saying no; quotable." },
-  "3-V10": { score: 7, why: "Open question closer invites stories; a bit long." },
-  "4-D": { score: 9, why: "Fresh Cursor deploy news + concrete pipeline list; fast news + enumerated steps. Top format." },
-  "4-V1": { score: 8, why: "Collapsed-distance framing is clear and quotable." },
-  "4-V2": { score: 9, why: "Lowercase, punchy, cooked-era closer. Feels like the community." },
-  "4-V3": { score: 8, why: "Bullet news summary with a sharp internal-tools closer." },
-  "4-V4": { score: 7, why: "Named reaction adds social proof; slightly insider." },
-  "4-V5": { score: 8, why: "Nostalgic deploy-afternoon contrast; short and felt." },
-  "4-V6": { score: 7, why: "Genuine question on a hot release; good for replies." },
-  "4-V7": { score: 9, why: "Four-word changelog energy. Extremely shareable." },
-  "4-V8": { score: 8, why: "Reframe that deploy stopped being a product; smart take." },
-  "4-V9": { score: 8, why: "Agents-write vs Cursor-hosts contrast; clean two-liner." },
-  "4-V10": { score: 7, why: "Side-project localhost jab; a bit lecture-y." },
-  "5-D": { score: 8, why: "Timely talent-move reaction with craft angle (UX people > benchmarks)." },
-  "5-V1": { score: 9, why: "Talent-is-the-real-context-window is a killer one-liner." },
-  "5-V2": { score: 8, why: "Owns-the-agent-UX framing is ambitious and clear." },
-  "5-V3": { score: 8, why: "Dry 'quiet week' sarcasm lands for this audience." },
-  "5-V4": { score: 8, why: "Models converge / PMs don't \u2014 sharp structural take." },
-  "5-V5": { score: 9, why: "Copy-a-model vs copy-the-person; short and felt." },
-  "5-V6": { score: 7, why: "Curious who wins question; good replies, softer punch." },
-  "5-V7": { score: 8, why: "Same-50-people framing feels true for agent UX." },
-  "5-V8": { score: 8, why: "Not-a-press-release closer reframes the hire as a bet." },
-  "5-V9": { score: 7, why: "S-1 then exit timing jab; slightly news-dump-y." },
-  "5-V10": { score: 7, why: "Honest-take framing is fine but less sharp than V1/V5." }
+  "1-D": { score: 9, why: "Three-beat lowercase take; gap feeling without copying theo verbatim. High share potential." },
+  "1-V1": { score: 8, why: "Stretched-the-gap reframe is clear and quotable." },
+  "1-V2": { score: 9, why: "Same-tools contrast into babysit vs ship. Extremely concrete." },
+  "1-V3": { score: 8, why: "Taste/judgment bottleneck list lands for this audience." },
+  "1-V4": { score: 9, why: "Confident garbage closer is felt and sharp." },
+  "1-V5": { score: 6, why: "10x/100x framing is fine but slightly more essay-y than the punchiest." },
+  "1-V6": { score: 9, why: "Two-line roast with terrifyingly productive payoff. Peak one-liner." },
+  "1-V7": { score: 9, why: "Typing speed \u2192 taste. Short, memorable, true." },
+  "1-V8": { score: 8, why: "Decide what should exist \u2014 clean craft take." },
+  "1-V9": { score: 7, why: "Two-teams scene is concrete; a bit longer." },
+  "1-V10": { score: 8, why: "Compressed easy parts / hard parts louder. Tight closer." },
+  "2-D": { score: 9, why: "One-line PR-smell question. High reply bait for agent users." },
+  "2-V1": { score: 8, why: "Refuse-to-let-touch question is specific and sticky." },
+  "2-V2": { score: 8, why: "Trust vs suspicious on clean PRs \u2014 honest and reply-friendly." },
+  "2-V3": { score: 7, why: "Last-thing-you'd-hand is clear; slightly softer." },
+  "2-V4": { score: 9, why: "Looks perfect / first red flag. Punchy and visual." },
+  "2-V5": { score: 7, why: "Human-in-the-loop ask is solid mid-tier." },
+  "2-V6": { score: 8, why: "Messy vs done review paradox is smart." },
+  "2-V7": { score: 8, why: "Auth rewrite merge question is high-stakes bait." },
+  "2-V8": { score: 8, why: "One unsupervised file \u2014 concrete and personal." },
+  "2-V9": { score: 7, why: "First smell question; a bit longer." },
+  "2-V10": { score: 8, why: "Pass CI still pause \u2014 lived feeling for pros." },
+  "3-D": { score: 8, why: "Named product + > bullets + cost claim from source. Solid release format." },
+  "3-V1": { score: 8, why: "Specialized-for-coding-agents angle is clear." },
+  "3-V2": { score: 7, why: "3x faster p90 fact is useful; slightly denser." },
+  "3-V3": { score: 8, why: "Hardcoding model strings jab lands for agent builders." },
+  "3-V4": { score: 8, why: "Bullet list with Opus/74% claim \u2014 verified and scannable." },
+  "3-V5": { score: 9, why: "Interesting launch isn't Auto, it's Auto Code. Sharp reframe." },
+  "3-V6": { score: 7, why: "Changelog energy; a bit info-dump." },
+  "3-V7": { score: 8, why: "Stop arguing / one-line swap closer is practical." },
+  "3-V8": { score: 7, why: "Babysitting model choice \u2014 good but softer punch." },
+  "3-V9": { score: 8, why: "One-line swap for existing OpenRouter users. Actionable." },
+  "3-V10": { score: 7, why: "Slug worth knowing \u2014 useful bookmark energy." },
+  "4-D": { score: 9, why: "Search Console analogy + new job title closer. Fast news + feeling." },
+  "4-V1": { score: 8, why: "Are we visible to AI dashboard line is sticky." },
+  "4-V2": { score: 8, why: "Next-tab framing for Search Console people. Short." },
+  "4-V3": { score: 7, why: "Trending-for-a-reason opener is a bit formulaic; content fine." },
+  "4-V4": { score: 8, why: "New chapter SEO playbook \u2014 clean two-liner." },
+  "4-V5": { score: 7, why: "Marketers update dashboards \u2014 clear, slightly soft." },
+  "4-V6": { score: 9, why: "Training data \u2192 mentions this week arc. Strong narrative." },
+  "4-V7": { score: 8, why: "Reporting layer for AI-search era. Smart." },
+  "4-V8": { score: 9, why: "Same muscle memory, new surface. Ultra short." },
+  "4-V9": { score: 7, why: "Name sticks line is fine; a bit explanatory." },
+  "4-V10": { score: 8, why: "Incomplete strategy jab for Google-only brands." },
+  "5-D": { score: 9, why: "Named discipline + hiring proof + keeping it honest closer. Top news reaction." },
+  "5-V1": { score: 8, why: "> bullet harness parts + easy-part closer. Scannable." },
+  "5-V2": { score: 8, why: "New role one-liner is clear and shareable." },
+  "5-V3": { score: 9, why: "Scarce skill is the harness. Short and true." },
+  "5-V4": { score: 7, why: "Trending-for-a-reason again; content okay." },
+  "5-V5": { score: 8, why: "2024 vs 2026 scaffolding contrast works." },
+  "5-V6": { score: 9, why: "Bottleneck moved to how you wrap the model. Killer." },
+  "5-V7": { score: 8, why: "Bug is in the harness not the model. Felt." },
+  "5-V8": { score: 8, why: "Demo vs shipped distinction is useful." },
+  "5-V9": { score: 7, why: "Hottest discipline claim; a bit hype-y." },
+  "5-V10": { score: 8, why: "Useful then stays that way. Clean closer." }
 };
 const TRENDING = { items: [
-  { title: "Cursor one-click prompt-to-deploy web apps", context: "Prompt \u2192 scaffold \u2192 Postgres \u2192 auth \u2192 deploy \u2192 shareable URL, all inside the editor.", url: "https://x.com/i/trending/2118474980145160485" },
-  { title: "Cat Wu (Claude Code lead) joins OpenAI", context: "The PM behind Claude Code moved to OpenAI core product \u2014 talent as the real agent race.", url: "https://x.com/i/trending/2118298101572055268" },
-  { title: "Living Brain cross-model memory", context: "Shared memory that follows you across models and tools." },
-  { title: "Aether cloud agents", context: "Cloud-hosted agents that keep running after you close the laptop." },
-  { title: "WebStorm 2026.3 agent loop", context: "Wires Figma, Storybook, and Chrome DevTools into the agent loop." }
-], takeaways: "Short emotional one-liners work; lived UX gripes travel; concrete enumerated lists outperform vague tips." };
+  { title: "ChatGPT Search Console / business visibility analytics", context: "OpenAI is building analytics so businesses can track impressions and clicks for how they appear in ChatGPT answers.", url: "https://x.com/i/trending/2118755136361152559" },
+  { title: "Harness engineering for AI agents", context: "Prompts, memory, verification loops, and evals are coalescing into a hireable discipline at Anthropic and Google.", url: "https://x.com/i/trending/2118767668119691265" },
+  { title: "Linear 4x code output with AI agents", context: "Linear reported a 4.2x jump in lines changed with cloud coding agents; ambition + AI-native process credited.", url: "https://x.com/i/trending/2118849874212884679" },
+  { title: "OpenRouter Auto Code router", context: "New coding-specialized router (openrouter/auto-code); claims Opus-like scores at ~74% lower cost per task.", url: "https://openrouter.ai/blog/announcements/auto-and-auto-code-routers/" },
+  { title: "AI engineer gap (theo)", context: "theo: AI made the average-vs-best engineer gap feel like 100x \u2014 884 likes / ~25k views.", url: "https://x.com/theo/status/2118842996414415220" }
+], takeaways: "Short emotional one-liners and concrete agent-PR questions win; punchy news reactions beat tip lists; avoid sparkle/icon-meta engagement Qs (Nov 6 Slot1 got 2\u2605)." };
 const CONTEXT = {
-  "4": { text: "Cursor shipped one-click prompt-to-deploy web apps: scaffold, Postgres, auth, and a shareable URL from the editor.", url: "https://x.com/i/trending/2118474980145160485", media: "Quote Cursor's announcement or the X trending story. Optional: screenshot of the deploy flow if available." },
-  "5": { text: "Cat Wu, who led Claude Code at Anthropic, joined OpenAI's core product team.", url: "https://x.com/i/trending/2118298101572055268", media: "Text-only reaction is fine; quote or screenshot the trending story if you want a visual." }
+  "4": { text: 'OpenAI is building ChatGPT business visibility analytics ("ChatGPT Search Console") so businesses can track impressions and clicks for how they show up in ChatGPT answers.', url: "https://x.com/i/trending/2118755136361152559", media: "Optional: mock Search Console-style dashboard labeled ChatGPT, or a quote-card of the trending topic." },
+  "5": { text: "Harness engineering is emerging as a key AI agent discipline (prompts, memory, verification loops, evals); Anthropic and Google are hiring for it.", url: "https://x.com/i/trending/2118767668119691265", media: "Optional: simple agent+harness loop diagram, or a quote-card of the trending topic." }
 };
 const GEM_C = "#22D3EE", PICK_C = "#4ADE80", DIS_C = "#F87171";
 const ACCENT = { "1": "#F57F34", "2": "#FF4D4D", "3": "#AB62EA", "4": "#4D4DFF", "5": "#57C4A8" };

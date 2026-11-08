@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%2322D3EE%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M2 9.5H22%27/%3E%3Cpath d=%27M20.5 9.5H3.5L4.23 15.37C4.6 18.29 4.78 19.75 5.77 20.62C6.77 21.5 8.24 21.5 11.18 21.5H12.82C15.76 21.5 17.23 21.5 18.23 20.62C19.22 19.75 19.4 18.29 19.77 15.37L20.5 9.5Z%27/%3E%3Cpath d=%27M5 9C5 5.41 8.13 2.5 12 2.5C15.87 2.5 19 5.41 19 9%27/%3E%3C/svg%3E">
 <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
-<style>html,body{margin:0;background:#0b0e13;color:#f0f2f6;font-family:system-ui,-apple-system,sans-serif}</style>
+<style>html,body{margin:0;background:#f7f7f8;color:#202124;font-family:system-ui,-apple-system,sans-serif}</style>
 </head>
 <body>
 <div id="root"></div>
@@ -326,9 +326,9 @@ function App() {
   const [fb, setFb] = useState({}), [fbCopied, setFbCopied] = useState(false), [copiedFp, setCopiedFp] = useState(""), [hoverStar, setHoverStar] = useState({}), [confirmClear, setConfirmClear] = useState(false);
   const [theme, setTheme] = useState(() => {
     try {
-      return localStorage.getItem("hugeicons-theme") === "light" ? "light" : "dark";
+      return localStorage.getItem("hugeicons-theme") === "dark" ? "dark" : "light";
     } catch {
-      return "dark";
+      return "light";
     }
   });
   useEffect(() => {

@@ -14,7 +14,7 @@
 <script>
 (function () {
   'use strict';
-  var date = '2026-11-07', supabaseUrl = 'https://uayxhyruyapwkkekdefs.supabase.co', apiKey = 'sb_publishable_rflL8Bh4BPC6gGspOeUu9A_JyTaNYu-';
+  var date = '2026-11-08', supabaseUrl = 'https://uayxhyruyapwkkekdefs.supabase.co', apiKey = 'sb_publishable_rflL8Bh4BPC6gGspOeUu9A_JyTaNYu-';
   var prefix = 'hugeicons-', suffix = '-' + date, keys = {}, pending = false, applying = false;
   var timer = null, inFlight = false, queued = false, lastRemote = '', destroyed = false;
   var remoteTable = supabaseUrl + '/rest/v1/board_state';
@@ -115,92 +115,88 @@
 </script>
 <script>
 const { useState, useEffect, useMemo, useRef } = React;
-const DATE = "2026-11-07";
-const DATE_LABEL = "Sat Nov 7";
+const DATE = "2026-11-08";
+const DATE_LABEL = "Sun Nov 8";
 const ROWS = [
-  { "Post": "Engineer gap after AI (take)", "Slot": "1", "Type": "Meme/Casual", "Status": "Drafted", "Feedback": null, "Draft": "the average vs best engineer gap was never really 10x.\n\nAI just made it feel like 100x.\n\nsame tools. wildly different outcomes.", "Variant 1": "average engineers got faster.\nbest engineers got a different job.\n\nAI didn't close the gap. it stretched it.", "Variant 2": "same agent. same repo. same prompt.\n\none person ships. one person babysits.\n\nthe gap was never the tools.", "Variant 3": "AI made the bottleneck obvious:\n\ntaste. judgment. knowing what NOT to generate.", "Variant 4": "everyone has the same models now.\n\nthe difference is who can still tell good output from confident garbage.", "Variant 5": "the 10x engineer debate is back.\n\nexcept now it's 100x, and the lever is how you use agents.", "Variant 6": "AI didn't make bad engineers good.\n\nit made good engineers terrifyingly productive.", "Variant 7": "shipping used to be limited by typing speed.\n\nnow it's limited by taste.", "Variant 8": "the gap after AI isn't who can write code.\n\nit's who can decide what code should exist.", "Variant 9": "give two teams the same agent for a week.\n\none ships a product. one ships a mess with tests.\n\ntools aren't the differentiator.", "Variant 10": "AI compressed the easy parts.\n\nthe hard parts got louder." },
-  { "Post": "What agents still can't touch (Q)", "Slot": "2", "Type": "Engagement question", "Status": "Drafted", "Feedback": null, "Draft": "what's the first thing you check when an agent PR looks too clean?", "Variant 1": "which part of your stack do you still refuse to let an agent touch?", "Variant 2": "be honest: when an agent ships a PR with zero comments, do you trust it or get suspicious?", "Variant 3": "what's the last thing you'd hand an agent on your team?", "Variant 4": "agent opens a PR. looks perfect. what's your first red flag?", "Variant 5": "where do you still want a human in the loop, no matter how good the agent gets?", "Variant 6": "what's harder to review: agent code that looks messy, or agent code that looks done?", "Variant 7": "if an agent rewrote your auth tomorrow, would you merge it?", "Variant 8": "what's one file in your repo you'd never let an agent edit unsupervised?", "Variant 9": "devs who use agents daily: what's the first smell that tells you a PR needs a human rewrite?", "Variant 10": "agent PRs that pass CI still make me pause. what makes you open the diff first?" },
-  { "Post": "OpenRouter Auto Code (release)", "Slot": "3", "Type": "Product update", "Status": "Drafted", "Feedback": null, "Draft": "OpenRouter just shipped Auto Code.\n\na router built for coding harnesses, not general chat.\n\n> model: openrouter/auto-code\n> tuned for pass rate + latency\n> claims Opus-like scores at ~74% lower cost per task\n\nstop hand-picking models every prompt.", "Variant 1": 'new from OpenRouter: Auto Code (openrouter/auto-code).\n\nsame routing engine as Auto, but specialized for coding agents.\n\nless "which model today?", more "just ship it".', "Variant 2": "OpenRouter rebuilt Auto Router and added Auto Code.\n\neleven signals per request. 3x faster routing at p90 in their live test.\n\ncoding harnesses finally get their own router.", "Variant 3": "openrouter/auto-code is live.\n\nbuilt for agent harnesses. weighs speed, pass rate, cost per solved task.\n\nif you're still hardcoding model strings for every coding agent, this is the alternative.", "Variant 4": "OpenRouter Auto Code:\n\n> coding-specialized router\n> higher tier of coding models\n> claims scores in line with Claude Opus 5.5 at 74% less cost per task\n\nworth a try if your agent keeps picking the wrong model.", "Variant 5": "the interesting OpenRouter launch isn't Auto.\n\nit's Auto Code \u2014 a router that assumes you're in a coding harness.", "Variant 6": "OpenRouter: Auto Router rebuilt + new Auto Code router.\n\nrouting step 3x faster at p90. Auto Code tuned for agents that write code.\n\nmodel: openrouter/auto-code", "Variant 7": "stop arguing about which coding model to use.\n\nOpenRouter's Auto Code picks from the pool based on the request \u2014 latency, pass rate, cost.\n\nset model to openrouter/auto-code and move on.", "Variant 8": "Auto Code on OpenRouter is for people tired of babysitting model choice in coding agents.\n\nsame foundation as Auto. different priorities: speed + pass rate over lowest cost.", "Variant 9": "OpenRouter shipped openrouter/auto-code.\n\nspecialized for coding work. sees provider health, cache, live pricing.\n\nif your agent already runs through OpenRouter, this is a one-line swap.", "Variant 10": "new OpenRouter slug worth knowing: openrouter/auto-code.\n\ncoding-first router. claims Opus-tier benchmark scores at much lower cost per task.\n\ntrying it on the next agent session." },
-  { "Post": "ChatGPT Search Console (trending)", "Slot": "4", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "OpenAI is building ChatGPT business analytics.\n\nbasically Search Console, but for how your brand shows up in ChatGPT answers.\n\nimpressions. clicks. visibility.\n\nSEO people about to invent a whole new job title.", "Variant 1": 'ChatGPT is getting a Search Console equivalent for businesses.\n\ntrack impressions and clicks inside ChatGPT answers.\n\nthe "are we even visible to AI?" dashboard just became real.', "Variant 2": "OpenAI to ChatGPT business visibility analytics.\n\nif Google Search Console was your morning ritual, this is the next tab.", "Variant 3": '"ChatGPT Search Console" is trending for a reason.\n\nbusinesses will track how often they appear in ChatGPT answers \u2014 impressions, clicks, the works.', "Variant 4": "the SEO playbook just got a new chapter:\n\noptimize for ChatGPT answers, then measure it like search.", "Variant 5": "OpenAI building analytics so businesses can see how they show up in ChatGPT.\n\nsearch visibility, but for AI answers.\n\nmarketers: update your dashboards.", "Variant 6": `first it was "are we in the training data?"
+  { "Post": "Share icon chaos", "Slot": "1", "Type": "Engagement question", "Status": "Drafted", "Feedback": null, "Draft": "Genuine question: which share icon do your users actually recognize?\n\nArrow out of a box.\nThree connected dots.\nCurved arrow.\nPaper plane.\n\nFour standards. Nobody won. \u{1F605}", "Variant 1": 'Do you know how hard it is to draw a "share" icon when every platform picked a different one?\n\nBox with arrow. Three dots. Curved arrow. Paper plane.\n\nWhich one would you ship?', "Variant 2": "there are 4 share icons and every user only recognizes 1 of them. problem is it's a different one for each user", "Variant 3": "Share icon tier list:\n\n1. Box + arrow\n2. Three dots\n3. Curved arrow\n4. Paper plane\n\nRank them \u{1F447}", "Variant 4": 'iOS people: box with an arrow.\nAndroid people: three dots.\nEmail people: curved arrow.\nEveryone else: paper plane.\n\nWhat does "share" look like in your app?', "Variant 5": "Hot take: the paper plane is a send icon, not a share icon.\n\nAgree or disagree?", "Variant 6": "Quick poll for designers and devs:\n\nYour default share icon is\u2026\n\n1. Box + arrow\n2. Three dots\n3. Curved arrow\n4. Paper plane", "Variant 7": 'Four ways to draw "share". All valid. All confusing to someone.\n\nWhich one would your users tap without thinking?', "Variant 8": 'The share icon is the "gif vs jif" of UI design.\n\nWhich version are you team?', "Variant 9": `Name a more confusing icon than "share".
 
-now it's "how many ChatGPT answers mention us this week?"
+I'll wait. \u{1F440}`, "Variant 10": "Building a share button today.\n\nSpent 5 minutes on the logic.\nSpent 30 minutes deciding which arrow.\n\nWhich share icon do you default to?" },
+  { "Post": "Taste still matters (lowercase take)", "Slot": "2", "Type": "Meme/Casual", "Status": "Drafted", "Feedback": null, "Draft": "people keep saying taste won't matter soon. then they open two apps that do the same thing and pick the one that looks better", "Variant 1": "everyone can build an app now. that's exactly why taste matters more, not less", "Variant 2": "ai made building cheap. it didn't make good-looking cheap", "Variant 3": "Taste won't matter, they said.\n\nThen they compared two identical to-do apps and downloaded the prettier one.\n\nTaste matters.", "Variant 4": "the new moat isn't the code. it's the 100 tiny design decisions nobody notices until they're wrong", "Variant 5": "when anyone can ship a feature in an hour, the only thing left to compete on is how it feels", "Variant 6": '"taste is overrated"\n\npicks the app with the nicer icons', "Variant 7": "Unpopular opinion: AI didn't kill taste. It made it the last thing that's hard to copy.", "Variant 8": "if two apps do the exact same thing, users pick with their eyes", "Variant 9": "Building is getting easier every month.\n\nMaking something people want to look at every day? Still hard.\n\nThat's the job now.", "Variant 10": `taste isn't going anywhere. it's just moving from "nice to have" to "the whole product"` },
+  { "Post": "Hidden /icons audit page tip", "Slot": "3", "Type": "Tip", "Status": "Drafted", "Feedback": null, "Draft": "Dev tip: add a hidden /icons page to your app.\n\nRender every icon you use at 16, 20 and 24px in one grid.\n\nMismatched styles, odd sizes and that one random emoji show up in 10 seconds.", "Variant 1": "Quick tip: you can't fix icon chaos you can't see.\n\nMake one page that shows every icon in your app side by side.\n\nThe odd one out will jump at you.", "Variant 2": "Before your next release:\n\ntl;dr:\n\n> list every icon your app uses\n> put them in one grid\n> check 16 / 20 / 24px\n> delete or replace the misfits\n\n15 minutes. Way more polished app.", "Variant 3": "Building with AI? Ask it to make you an /icons page that renders every icon it used.\n\nYou'll find out very fast how many icon sets it quietly mixed.", "Variant 4": "the fastest design audit: put every icon in your app on one page", "Variant 5": "Most UI inconsistency hides across screens.\n\nPut every icon on one screen and it can't hide anymore.", "Variant 6": "Design system tip: your icon inventory should be a page, not a memory.\n\n/icons \u2192 every icon, every size, one grid.\n\nReview it before every release.", "Variant 7": "Icon designers line up icons in one grid to catch the one that's slightly off.\n\nSteal that for your app: add an /icons page.", "Variant 8": "Step 1: make an /icons page\nStep 2: render every icon you use\nStep 3: be slightly horrified\nStep 4: fix it", "Variant 9": "If your app has a Storybook for buttons but nothing for icons, that's where the inconsistency is hiding.", "Variant 10": "Tiny habit, big polish:\n\nKeep a dev-only page that shows all your icons in one grid.\n\nNew icon? It goes on the page first. If it looks off next to the others, it doesn't ship." },
+  { "Post": "OpenCode Browse (trending)", "Slot": "4", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "okay so now the agent can use your real browser.\n\ntabs, logins, the whole thing. still on your machine though.\n\nthat's the only version of this i'd actually turn on.", "Variant 1": "i'll let an agent drive my browser the day it stays on my machine.\n\nOpenCode just shipped that. called it Browse.", "Variant 2": "cloud agents in my browser? no.\nmy agent in my browser, on my machine? ...maybe.\n\nOpenCode Browse is the second one.", "Variant 3": `the useful part of OpenCode Browse isn't "ai can use a browser"
 
-OpenAI's business analytics make that measurable.`, "Variant 7": "ChatGPT answer visibility is becoming a metric.\n\nOpenAI's business analytics = impressions + clicks inside ChatGPT.\n\nthe AI-search era just got a reporting layer.", "Variant 8": "SEO teams watching OpenAI ship ChatGPT visibility analytics:\n\nsame muscle memory. new surface.", "Variant 9": "OpenAI: businesses will track impressions/clicks for how they appear in ChatGPT answers.\n\ncall it Search Console for ChatGPT. the name sticks for a reason.", "Variant 10": "if your brand strategy still stops at Google rankings, ChatGPT visibility analytics just made that incomplete." },
-  { "Post": "Harness engineering (trending)", "Slot": "5", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": `"harness engineering" is having a moment.
+it's that it uses YOURS, and doesn't phone home with the session.`, "Variant 4": "we went from agents that write code to agents that can open the tab, log in, and finish the form.\n\nstill on-device. still waiting for you on 2FA.\n\ni can live with that.", "Variant 5": "an ai clicking through my real chrome tabs used to be a horror pitch.\n\nnow it's a changelog. OpenCode Browse. on-device.", "Variant 6": "the bar for letting an agent touch my browser:\n\n> it stays on my machine\n> i handle the login and 2FA\n> it doesn't hijack the tab i'm in\n\nOpenCode Browse is aiming at all three.", "Variant 7": "i don't need an agent with its own browser in the cloud.\n\ni need one that can use mine, then hand the keyboard back when it's time to pay.", "Variant 8": `OpenCode gave agents a real browser and kept it on-device.
 
-prompts. memory. verification loops. evals.
+that's the difference between "helpful" and "absolutely not."`, "Variant 9": "first they wrote the code.\nthen they opened the PR.\nnow they want the browser too.\n\nat least Browse does it locally.", "Variant 10": "if your agent needs to log into something, i'd rather it use my browser on my machine than a headless one i can't see.\n\nOpenCode Browse gets that." },
+  { "Post": "Old side projects vs new models (trending)", "Slot": "5", "Type": "Trending news", "Status": "Drafted", "Feedback": null, "Draft": "opened an old side project this week.\n\nthe uncomfortable part wasn't the code.\n\nit was realizing a new model could rebuild the whole thing in one sitting.", "Variant 1": "nothing ages a portfolio faster than last month's models.", "Variant 2": "the new models didn't just raise the bar.\n\nthey made your old side projects look like first drafts.", "Variant 3": "i used to be proud of that weekend project.\n\nthen i watched an agent recreate it before my coffee got cold.", "Variant 4": "your old side projects aren't bad.\n\nthe baseline just moved without asking you.", "Variant 5": "the scariest thing about new models isn't what they can build.\n\nit's how quickly your old work starts looking optional.", "Variant 6": `updated my portfolio energy this week:
 
-Anthropic and Google are hiring for it.
-
-the job isn't writing the agent anymore. it's keeping it honest.`, "Variant 1": "harness engineering = the discipline around AI agents.\n\n> prompt design\n> memory\n> verification loops\n> eval harnesses\n\nAnthropic/Google are hiring. the agent itself is the easy part now.", "Variant 2": "the new role in AI teams: harness engineer.\n\nsomeone who owns the loops that keep agents from going off the rails.", "Variant 3": "everyone wants to build agents.\n\nthe scarce skill is building the harness \u2014 prompts, memory, verification, evals.", "Variant 4": '"harness engineering" trending for a reason.\n\nprompts + memory + verification loops are becoming a real discipline. big labs are hiring into it.', "Variant 5": "writing the agent was 2024.\n\n2026 is harness engineering: the scaffolding that makes agents reliable.", "Variant 6": "Anthropic and Google hiring harness engineers.\n\ntranslation: the bottleneck moved from model quality to how you wrap the model.", "Variant 7": "if your agent fails in production, the bug is usually in the harness \u2014 not the model.\n\nthat's why harness engineering is suddenly a job title.", "Variant 8": "prompts. memory. verification loops.\n\nthat's harness engineering. and it's what separates demo agents from shipped ones.", "Variant 9": "the hottest AI discipline right now isn't model training.\n\nit's harness engineering \u2014 the systems around the agent.", "Variant 10": "harness engineering in one line:\n\nmake the agent useful, then make sure it stays that way." }
+not "look what i built"
+more "please don't judge the timestamps"`, "Variant 7": "if your side project from last year still impresses you, you haven't opened a new model lately.", "Variant 8": "we used to outgrow our old projects in a year.\n\nnow it takes a model release.", "Variant 9": "nobody warned me the hard part of better AI would be looking back at my own github.", "Variant 10": "it's not that the old project is embarrassing.\n\nit's that the version i'd ship today would take an afternoon, not a month." }
 ];
 const RATINGS = {
-  "1-D": { score: 9, why: "Three-beat lowercase take; gap feeling without copying theo verbatim. High share potential." },
-  "1-V1": { score: 8, why: "Stretched-the-gap reframe is clear and quotable." },
-  "1-V2": { score: 9, why: "Same-tools contrast into babysit vs ship. Extremely concrete." },
-  "1-V3": { score: 8, why: "Taste/judgment bottleneck list lands for this audience." },
-  "1-V4": { score: 9, why: "Confident garbage closer is felt and sharp." },
-  "1-V5": { score: 6, why: "10x/100x framing is fine but slightly more essay-y than the punchiest." },
-  "1-V6": { score: 9, why: "Two-line roast with terrifyingly productive payoff. Peak one-liner." },
-  "1-V7": { score: 9, why: "Typing speed \u2192 taste. Short, memorable, true." },
-  "1-V8": { score: 8, why: "Decide what should exist \u2014 clean craft take." },
-  "1-V9": { score: 7, why: "Two-teams scene is concrete; a bit longer." },
-  "1-V10": { score: 8, why: "Compressed easy parts / hard parts louder. Tight closer." },
-  "2-D": { score: 9, why: "One-line PR-smell question. High reply bait for agent users." },
-  "2-V1": { score: 8, why: "Refuse-to-let-touch question is specific and sticky." },
-  "2-V2": { score: 8, why: "Trust vs suspicious on clean PRs \u2014 honest and reply-friendly." },
-  "2-V3": { score: 7, why: "Last-thing-you'd-hand is clear; slightly softer." },
-  "2-V4": { score: 9, why: "Looks perfect / first red flag. Punchy and visual." },
-  "2-V5": { score: 7, why: "Human-in-the-loop ask is solid mid-tier." },
-  "2-V6": { score: 8, why: "Messy vs done review paradox is smart." },
-  "2-V7": { score: 8, why: "Auth rewrite merge question is high-stakes bait." },
-  "2-V8": { score: 8, why: "One unsupervised file \u2014 concrete and personal." },
-  "2-V9": { score: 7, why: "First smell question; a bit longer." },
-  "2-V10": { score: 8, why: "Pass CI still pause \u2014 lived feeling for pros." },
-  "3-D": { score: 8, why: "Named product + > bullets + cost claim from source. Solid release format." },
-  "3-V1": { score: 8, why: "Specialized-for-coding-agents angle is clear." },
-  "3-V2": { score: 7, why: "3x faster p90 fact is useful; slightly denser." },
-  "3-V3": { score: 8, why: "Hardcoding model strings jab lands for agent builders." },
-  "3-V4": { score: 8, why: "Bullet list with Opus/74% claim \u2014 verified and scannable." },
-  "3-V5": { score: 9, why: "Interesting launch isn't Auto, it's Auto Code. Sharp reframe." },
-  "3-V6": { score: 7, why: "Changelog energy; a bit info-dump." },
-  "3-V7": { score: 8, why: "Stop arguing / one-line swap closer is practical." },
-  "3-V8": { score: 7, why: "Babysitting model choice \u2014 good but softer punch." },
-  "3-V9": { score: 8, why: "One-line swap for existing OpenRouter users. Actionable." },
-  "3-V10": { score: 7, why: "Slug worth knowing \u2014 useful bookmark energy." },
-  "4-D": { score: 9, why: "Search Console analogy + new job title closer. Fast news + feeling." },
-  "4-V1": { score: 8, why: "Are we visible to AI dashboard line is sticky." },
-  "4-V2": { score: 8, why: "Next-tab framing for Search Console people. Short." },
-  "4-V3": { score: 7, why: "Trending-for-a-reason opener is a bit formulaic; content fine." },
-  "4-V4": { score: 8, why: "New chapter SEO playbook \u2014 clean two-liner." },
-  "4-V5": { score: 7, why: "Marketers update dashboards \u2014 clear, slightly soft." },
-  "4-V6": { score: 9, why: "Training data \u2192 mentions this week arc. Strong narrative." },
-  "4-V7": { score: 8, why: "Reporting layer for AI-search era. Smart." },
-  "4-V8": { score: 9, why: "Same muscle memory, new surface. Ultra short." },
-  "4-V9": { score: 7, why: "Name sticks line is fine; a bit explanatory." },
-  "4-V10": { score: 8, why: "Incomplete strategy jab for Google-only brands." },
-  "5-D": { score: 9, why: "Named discipline + hiring proof + keeping it honest closer. Top news reaction." },
-  "5-V1": { score: 8, why: "> bullet harness parts + easy-part closer. Scannable." },
-  "5-V2": { score: 8, why: "New role one-liner is clear and shareable." },
-  "5-V3": { score: 9, why: "Scarce skill is the harness. Short and true." },
-  "5-V4": { score: 7, why: "Trending-for-a-reason again; content okay." },
-  "5-V5": { score: 8, why: "2024 vs 2026 scaffolding contrast works." },
-  "5-V6": { score: 9, why: "Bottleneck moved to how you wrap the model. Killer." },
-  "5-V7": { score: 8, why: "Bug is in the harness not the model. Felt." },
-  "5-V8": { score: 8, why: "Demo vs shipped distinction is useful." },
-  "5-V9": { score: 7, why: "Hottest discipline claim; a bit hype-y." },
-  "5-V10": { score: 8, why: "Useful then stays that way. Clean closer." }
+  "1-D": { score: 8, why: "Concrete four-icon list plus a real question. Strong enumerated example." },
+  "1-V1": { score: 8, why: "Same inventory, ship-or-not closer. Clear and usable." },
+  "1-V2": { score: 9, why: "Lowercase observation with a sting. Matches the punchy community voice." },
+  "1-V3": { score: 7, why: "Tier-list bait is scannable but a bit more listicle than felt." },
+  "1-V4": { score: 8, why: "Platform-by-platform split is concrete and reply-friendly." },
+  "1-V5": { score: 5, why: "Opens with formulaic Hot take, which this board has already marked down." },
+  "1-V6": { score: 7, why: "Clean poll. Useful, slightly softer than a one-liner." },
+  "1-V7": { score: 8, why: "All valid / all confusing, then a tap-without-thinking ask." },
+  "1-V8": { score: 7, why: "gif vs jif analogy is fun; a little more meme than point." },
+  "1-V9": { score: 6, why: "Generic I'll-wait engagement bait without a concrete hook." },
+  "1-V10": { score: 9, why: "Five minutes vs thirty minutes is a lived scene. High share potential." },
+  "2-D": { score: 9, why: "Lowercase scene: same product, prettier app wins. Feeling without a lecture." },
+  "2-V1": { score: 9, why: "Short one-liner that flips the usual take." },
+  "2-V2": { score: 9, why: "Building cheap vs good-looking cheap. Tight and true." },
+  "2-V3": { score: 7, why: "Same idea, more essay-shaped than the lowercase cuts." },
+  "2-V4": { score: 8, why: "Hundred tiny decisions line is crafty and specific." },
+  "2-V5": { score: 8, why: "How it feels as the leftover moat. Clean." },
+  "2-V6": { score: 9, why: "Quoted denial, then nicer icons. Two-beat roast." },
+  "2-V7": { score: 5, why: "Unpopular opinion opener is the formula this board dislikes." },
+  "2-V8": { score: 8, why: "Users pick with their eyes. Short and obvious in a good way." },
+  "2-V9": { score: 7, why: "True three-beat, a bit longer than the punchiest cuts." },
+  "2-V10": { score: 8, why: "Nice-to-have becoming the whole product. Solid closer." },
+  "3-D": { score: 8, why: "Hidden /icons page at three sizes is a concrete pro habit, not a beginner lecture." },
+  "3-V1": { score: 7, why: "Clear audit tip; slightly more instructional." },
+  "3-V2": { score: 8, why: "Checklist at 16/20/24 is scannable and practical." },
+  "3-V3": { score: 8, why: "AI mixing icon sets is a felt pain for this audience." },
+  "3-V4": { score: 9, why: "One-line audit. Punchy and memorable." },
+  "3-V5": { score: 8, why: "Can't hide on one screen. Simple reframe." },
+  "3-V6": { score: 6, why: "Design-system tip tone is a bit handbook." },
+  "3-V7": { score: 7, why: "Steal-that-habit angle is fine, less sharp." },
+  "3-V8": { score: 8, why: "Four steps ending in slightly horrified. Fun without talking down." },
+  "3-V9": { score: 8, why: "Storybook for buttons but not icons. Specific jab." },
+  "3-V10": { score: 6, why: "Good habit, longer and softer than the one-liners." },
+  "4-D": { score: 9, why: "Brand reaction, not a recap: real browser, still local, only version I'd turn on." },
+  "4-V1": { score: 8, why: "Condition-then-product. Short critic energy." },
+  "4-V2": { score: 9, why: "Cloud no / mine maybe. Fun, clear stance." },
+  "4-V3": { score: 8, why: "Uses YOURS and doesn't phone home. The actual point." },
+  "4-V4": { score: 7, why: "A bit changelog-shaped; 2FA handoff detail still helps." },
+  "4-V5": { score: 9, why: "Horror pitch to changelog. Fast and funny." },
+  "4-V6": { score: 8, why: "Three-bar list of what would make this okay. Concrete." },
+  "4-V7": { score: 9, why: "Hand the keyboard back when it's time to pay. Lived critic line." },
+  "4-V8": { score: 8, why: "Helpful vs absolutely not. Clean split." },
+  "4-V9": { score: 8, why: "Code, then PR, then the browser. Progression with a local caveat." },
+  "4-V10": { score: 7, why: "Solid preference, slightly more explanatory." },
+  "5-D": { score: 9, why: "Uncomfortable part wasn't the code. Feeling first, news second." },
+  "5-V1": { score: 9, why: "One-liner that ages a portfolio overnight." },
+  "5-V2": { score: 8, why: "Old projects as first drafts. Sharp." },
+  "5-V3": { score: 9, why: "Coffee-got-cold scene. Concrete and funny." },
+  "5-V4": { score: 8, why: "Baseline moved without asking. Quiet sting." },
+  "5-V5": { score: 8, why: "Old work looking optional. Good critic line." },
+  "5-V6": { score: 9, why: "Don't judge the timestamps. Fun brand voice." },
+  "5-V7": { score: 8, why: "If it still impresses you, you haven't opened a new model. Jabby." },
+  "5-V8": { score: 9, why: "A year vs a model release. Tight contrast." },
+  "5-V9": { score: 8, why: "Looking back at your own GitHub. Relatable without stats." },
+  "5-V10": { score: 8, why: "Afternoon, not a month. Specific and honest." }
 };
 const TRENDING = { items: [
-  { title: "ChatGPT Search Console / business visibility analytics", context: "OpenAI is building analytics so businesses can track impressions and clicks for how they appear in ChatGPT answers.", url: "https://x.com/i/trending/2118755136361152559" },
-  { title: "Harness engineering for AI agents", context: "Prompts, memory, verification loops, and evals are coalescing into a hireable discipline at Anthropic and Google.", url: "https://x.com/i/trending/2118767668119691265" },
-  { title: "Linear 4x code output with AI agents", context: "Linear reported a 4.2x jump in lines changed with cloud coding agents; ambition + AI-native process credited.", url: "https://x.com/i/trending/2118849874212884679" },
-  { title: "OpenRouter Auto Code router", context: "New coding-specialized router (openrouter/auto-code); claims Opus-like scores at ~74% lower cost per task.", url: "https://openrouter.ai/blog/announcements/auto-and-auto-code-routers/" },
-  { title: "AI engineer gap (theo)", context: "theo: AI made the average-vs-best engineer gap feel like 100x \u2014 884 likes / ~25k views.", url: "https://x.com/theo/status/2118842996414415220" }
-], takeaways: "Short emotional one-liners and concrete agent-PR questions win; punchy news reactions beat tip lists; avoid sparkle/icon-meta engagement Qs (Nov 6 Slot1 got 2\u2605)." };
+  { title: "OpenCode Browse", context: "OpenCode launched Browse: an on-device MCP server and Chromium extension so agents can drive your real browser (tabs, logins, extensions) while 2FA and payments hand back to you.", url: "https://opencode.ai/product/browse" },
+  { title: "Old side projects vs new models", context: "Developers are wincing at old side projects because newer models raised the baseline for what a weekend build looks like.", url: "https://x.com/i/trending/2119222134920925251" }
+], takeaways: "Short brand reactions (fun, critic, or positive) beat news-channel recaps (Nov 7 Slot 4 got 2\u2605 for that). Punchy one-liners and concrete scenes win; skip formulaic hot-take openers." };
 const CONTEXT = {
-  "4": { text: 'OpenAI is building ChatGPT business visibility analytics ("ChatGPT Search Console") so businesses can track impressions and clicks for how they show up in ChatGPT answers.', url: "https://x.com/i/trending/2118755136361152559", media: "Optional: mock Search Console-style dashboard labeled ChatGPT, or a quote-card of the trending topic." },
-  "5": { text: "Harness engineering is emerging as a key AI agent discipline (prompts, memory, verification loops, evals); Anthropic and Google are hiring for it.", url: "https://x.com/i/trending/2118767668119691265", media: "Optional: simple agent+harness loop diagram, or a quote-card of the trending topic." }
+  "4": { text: "OpenCode launched Browse: an on-device MCP server plus Chromium extension that lets agents drive your real browser (your tabs, logins, extensions). Agent tabs open in the background; logins, 2FA, and payments hand back to you. Works with Chrome, Edge, Brave, and other Chromium browsers.", url: "https://opencode.ai/product/browse", media: "Optional: product page or a screenshot of Browse driving a background tab group (no fake UI)." },
+  "5": { text: "Developers are looking back at old side projects and wincing: current models can rebuild them in one sitting, which raised the baseline for what a decent project looks like. No invented productivity stats.", url: "https://x.com/i/trending/2119222134920925251", media: "Text-only reaction." }
 };
 const GEM_C = "#22D3EE", PICK_C = "#4ADE80", DIS_C = "#F87171";
 const ACCENT = { "1": "#F57F34", "2": "#FF4D4D", "3": "#AB62EA", "4": "#4D4DFF", "5": "#57C4A8" };
